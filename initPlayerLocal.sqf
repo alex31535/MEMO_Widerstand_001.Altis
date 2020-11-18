@@ -45,7 +45,7 @@ player setUnitTrait ["UAVHacker",false];
 	//[getunitloadout player] remoteExecCall ["fnc_s_spcfg_loadout_spieler_speichern",2]
 	}] call BIS_fnc_addScriptedEventHandler;
 
-
+ 
 
 
 // # abschluss/ende/a_lokaler_debug---------------------------------------------------------------------------------------------------------abschluss/ende/a_lokaler_debug
