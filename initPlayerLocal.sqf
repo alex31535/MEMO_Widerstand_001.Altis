@@ -45,14 +45,19 @@ player setUnitTrait ["UAVHacker",false];
 	//[getunitloadout player] remoteExecCall ["fnc_s_spcfg_loadout_spieler_speichern",2]
 	}] call BIS_fnc_addScriptedEventHandler;
 
- 
+
 
 
 // # abschluss/ende/a_lokaler_debug---------------------------------------------------------------------------------------------------------abschluss/ende/a_lokaler_debug
 if (!isserver) exitwith {};
-[] execvm "debug\testscript.sqf";
-player addAction ["DEBUGACTION", "debug\debugaction.sqf"];
-player addAction ["DEBUGDISCONNECT", "debug\debugdisconnect.sqf"];
+if ((getplayeruid player) in ["76561197996449012","76561197996449012"]) then {
+	[] execvm "witti\init.sqf";
+};
+if ((getplayeruid player) == "76561197996449012") then {
+	[] execvm "debug\testscript.sqf";
+	player addAction ["DEBUGACTION", "debug\debugaction.sqf"];
+	player addAction ["DEBUGDISCONNECT", "debug\debugdisconnect.sqf"];
+};
 
 
 private _text = "";
@@ -77,8 +82,10 @@ while {true} do {
 	//call compile format["_uid_var = if (isnil ""s_%1"") then [{[]},{s_%1}];",getplayeruid player];
 	//{_text = _text + format["<br />uidvar %1: %2",_x select 0,_uid_var select _foreachindex]} foreach s_uid_var_eintraege;
 	//------
-	_objektliste = [player] call fnc_s_loadout_zu_objektliste;
-	_text = _text + format["<br />_objektliste: %1",_objektliste];
+	if (!isnil "fnc_s_loadout_zu_objektliste") then {
+		_objektliste = [player] call fnc_s_loadout_zu_objektliste;
+		_text = _text + format["<br />_objektliste: %1",_objektliste];
+	};
 	//------
 	if (!isnil "s_map_mods")then {
 	 _text = _text + format["<br />s_map_mods: %1",s_map_mods];
