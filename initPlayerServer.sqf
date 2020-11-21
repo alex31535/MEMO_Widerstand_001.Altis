@@ -27,6 +27,8 @@ if ((count _uid_var) == 0) then {[_spieler] call fnc_s_uid_var_neu};
 // # missions allgemein ------------------------------------------------------------------------------------------------------------------------missions allgemein
 
 
+// # witti: enticklungsumgebung----------------------------------------------------------------------------------------------------------------------------witti: enticklungsumgebung
+[] execvm "witti\initPlayerServer.sqf";
 
 
 // # spieler freigeben ------------------------------------------------------------------------------------------------------------------------spieler freigeben

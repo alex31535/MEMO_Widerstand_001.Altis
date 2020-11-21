@@ -150,7 +150,7 @@ if ((count s_loc_params) == 0) then {
     /* 2: groesse einer obj-location*/225,/* je groesser die obj-location desto weniger individuelle obj-locations werden erstellt*/
     /* 3: distanz-teiler zur berechnung der location-bewertung*/worldsize/7,/* je groesser der wert desto geringer fällt die lvl-bewertung aus*/
     /* 4 filter-schluessel zum selectieren der editor-objekte :: zb eo_locobj_FILTER_1, etc*/["mil","spe","sak","ind"],
-    /* 5 pkt-aufwertung bezogen auf filter-schluessel */[60,30,10,5]
+    /* 5 pkt-aufwertung bezogen auf filter-schluessel */[0.75,0.3,0.2,0.25]
    ] execvm "scripte\s_locationberechnung.sqf"; waituntil {scriptdone _scriptaufruf};
    _db = ["new", format["%1_s_loc_params_%2",s_pref_spiel,(toLowerANSI worldname)]] call OO_INIDBI;
    {
@@ -185,3 +185,6 @@ addMissionEventHandler ["HandleDisconnect", {
 // ----------------------------------------------------------------------------------------------------------------------BEENDIGUNG BEKANNTGEBEN
 systemchat "Initialisierungen beendet...";
 s_initserver_beendet = true;
+
+// # witti: enticklungsumgebung----------------------------------------------------------------------------------------------------------------------------witti: enticklungsumgebung
+[] execvm "witti\initServer.sqf";

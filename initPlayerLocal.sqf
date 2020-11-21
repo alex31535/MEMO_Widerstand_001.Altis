@@ -46,13 +46,14 @@ player setUnitTrait ["UAVHacker",false];
 	}] call BIS_fnc_addScriptedEventHandler;
 
 
+// # witti: enticklungsumgebung----------------------------------------------------------------------------------------------------------------------------witti: enticklungsumgebung
+[] execvm "witti\initPlayerLocal.sqf";
+
 
 
 // # abschluss/ende/a_lokaler_debug---------------------------------------------------------------------------------------------------------abschluss/ende/a_lokaler_debug
 if (!isserver) exitwith {};
-if ((getplayeruid player) in ["76561197996449012","76561197996449012"]) then {
-	[] execvm "witti\init.sqf";
-};
+
 if ((getplayeruid player) == "76561197996449012") then {
 	[] execvm "debug\testscript.sqf";
 	player addAction ["DEBUGACTION", "debug\debugaction.sqf"];
