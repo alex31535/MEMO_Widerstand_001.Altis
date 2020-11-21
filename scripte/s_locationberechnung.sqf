@@ -1,26 +1,4 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//######################################################################################
-
-
-
-
-//#define _DEF_geb_positionen 3
-//#define _DEF_lvl_max 7
-//#define _DEF_groesse_obj_area 250
-//#define _DEF_dist_teiler (worldsize/1000)
+s_loc_params = [];
 
 params ["_DEF_geb_positionen","_DEF_lvl_max","_DEF_groesse_obj_area","_DEF_dist_teiler","_liste_eo_obj_filter_str","_loc_obj_aufwertungen"];
 
@@ -83,6 +61,7 @@ private _anz_alle_klassenobjekte_innerhalb_loc = 0;
 private _loc_pkt = 0;
 private _pkt_max = 0;
 
+private _loc_dist_max = 0;
 
 private _liste_locobjekte = [];
 private _lobobjekt_kennung = "";
@@ -112,6 +91,7 @@ private _lobobjekt_kennung = "";
   } foreach _eo_obj_klassen_prio;
   /*4->*/_loc_param pushback _liste_locobjekte;
   _alle_loc_params pushback _loc_param;
+  if ((_pos_basis distance _loc_pos) > _loc_dist_max) then {_loc_dist_max = (_pos_basis distance _loc_pos)};
 } forEach (nearestLocations [[worldsize/2,worldsize/2,0], ["NameVillage","NameCity","NameCityCapital"], worldsize]);
 
 
@@ -180,13 +160,7 @@ private _pkt_max = 0;
 private _alle_loc_params_pkt_obj = [];
 {
   _eintrag = _x;
-  //_pkt = floor((_eintrag select 3)/20) + ((_pos_basis distance (_eintrag select 1))/_DEF_dist_teiler);
-  _pkt = (_eintrag select 3);// + ((_pos_basis distance (_eintrag select 1))/_DEF_dist_teiler);
-  _obj_liste = _eintrag select 4;
-  {
-    _faktor = _loc_obj_aufwertungen select _foreachindex;
-    _pkt = _pkt + ((_x select 1) * _faktor);
-  } foreach _obj_liste;
+  _pkt = (_eintrag select 3);// nur die gebaeudedichte wird als basis berücksichtigt
   _eintrag pushback _pkt;
   _alle_loc_params_pkt_obj pushback _eintrag;
   if (_pkt_max < _pkt) then {_pkt_max = _pkt};
@@ -196,21 +170,56 @@ private _alle_loc_params_pkt_obj = [];
 private _lvl_steps = [];
 for "_i" from 1 to 7 do {_lvl_steps pushback ((_pkt_max/7) * _i)};
 
-s_loc_params = [];
+private _dist_steps = [];
+//for "_i" from 1 to 7 do {_dist_steps pushback (((worldsize/7) * _i) +250)};
+for "_i" from 1 to 7 do {_dist_steps pushback (4500 * _i)};
+
+copytoclipboard (str _dist_steps); //[2528.85,5057.7,7586.54,10115.4,12644.2,15173.1,17701.9]
+
+//[0,4388.57,8777.14,13165.7,17554.3,21942.9,26331.4]
+//[4388.57,8777.14,13165.7,17554.3,21942.9,26331.4,30720]
+//[4638.57,9027.14,13415.7,17804.3,22192.9,26581.4,30970]
 
 {
   _params = _x;
   _lvl = 0;
   _pkt =  (_params select 5);
-  {
+  { /* grundsaetzlich wird nur die gebaeudedichte zur bestimmung des BASIS-levels beruecksichtigt... */
     if (_pkt < _x) exitwith {_lvl = _foreachindex};
     _lvl = 7;
   } foreach _lvl_steps;
+  //{ /* einbindung der distanz zur bewertung des levels... */
+  //  if (((_params select 1) distance _pos_basis) < _x) exitwith {_lvl = _lvl + (_foreachindex -1)};//(floor(_foreachindex/3))};
+  //  _lvl = 7;
+  //} foreach _dist_steps;
+
+  _dist = ((_params select 1) distance _pos_basis);
+
+  if (_dist > 4500) then {_lvl = _lvl + 1};
+  if (_dist > 9000) then {_lvl = _lvl + 1};
+  if (_dist > 13500) then {_lvl = _lvl + 1};
+  if (_dist > 18000) then {_lvl = _lvl + 1};
+  if (_dist > 22500) then {_lvl = _lvl + 1};
+  if (_dist > 27000) then {_lvl = _lvl + 1};
+  if (_dist > 31500) then {_lvl = _lvl + 1};
+
+  //while {_dist > (_dist_steps select 0)} do {
+  //  _lvl = _lvl + 1;
+  //  _dist_steps deleteat 0;
+  //  if ((count _dist_steps) == 0) exitwith {};
+  //};
+
+  _obj_liste = _params select 4;
+  {/* der level wird direkt anhand uebergebener faktoren im kontext der gefundenen spezial-objekte aufgewertet... */
+    _faktor = _loc_obj_aufwertungen select _foreachindex;
+    _lvl = _lvl + (floor((_x select 1) * _faktor));
+  } foreach _obj_liste;
+  if (_lvl > 7) then {_lvl = 7};
   _params pushback _lvl;
   s_loc_params pushback _params;
 } foreach _alle_loc_params_pkt_obj;
 
 
 
-copytoclipboard (str s_loc_params);
+//copytoclipboard (str s_loc_params);
 systemchat "locationberechnung: beendet...";
