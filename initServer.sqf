@@ -20,6 +20,8 @@ fnc_s_garage_einparken = compile preprocessfilelinenumbers "fnc\fnc_s_garage_ein
 
 fnc_s_gebaeudeauswahl = compile preprocessfilelinenumbers "fnc\fnc_s_gebaeudeauswahl.sqf";
 
+fnc_s_action_gruppenmission_waehlen = compile preprocessfilelinenumbers "fnc\fnc_s_action_gruppenmission_waehlen.sqf";
+
 //------------------------------------------------------------------------------<system-globals
 systemchat "Setze statische Globals...";
 
@@ -32,7 +34,16 @@ s_uid_var_eintraege = [
   ["schaden",0],
   ["loadout",[]]
 ];
-
+s_mission_params_reset = [
+/* 0: mission aktiv ? */ false,
+/* 1: name der Mission */ "",
+/* 2: missionspfad zb "alex_missions\memo_deathmatch\" */ "missions\",
+/* 3: aktuelle punkte aus mission */ 0,
+/* 4: notaus */ false,
+/* 5: garagen verfuegbar */ true,
+/* 6: ausstattungen verfuegbar */ true
+];
+s_mission_params = []; {s_mission_params pushback _x} foreach s_mission_params_reset;
 
 //------------------------------------------------------------------------------<
 systemchat "Editor-Objekte: Parameter...";
@@ -43,7 +54,8 @@ clearItemCargoGlobal eo_basis_ausruestung;
 clearWeaponCargoGlobal eo_basis_ausruestung;
 {_x allowdammage false} foreach ((position eo_flagge_basis) nearObjects ["House",150]);
 
-
+// ---------> m_area_basis: markiert den bereich der basis
+"m_area_basis" setmarkeralpha 1;
 
 //------------------------------------------------------------------------------<
 systemchat "Editor-Objekte: Mod-Listen...";
@@ -129,7 +141,19 @@ s_garage_boot = [];
 //------------------------------------------------------------------------------<
 systemchat "Locations: Initialisierung...";
 
-s_loc_params = [];
+s_loc_params = [
+/*
+  [
+0:loc-name            "Anthrakia",
+1:loc-pos             [16584.3,16104,-15.1762],
+2:loc-groesse         562.5,
+3:geabeudedichte      116,
+4:dichte loc-objekte  [["mil",0],["spe",0],["sak",2],["ind",0]],
+5:loc-pkt             116,
+6:loc-lvl             2
+  ]
+*/
+];
 _db = ["new", format["%1_s_loc_params_%2",s_pref_spiel,(toLowerANSI worldname)]] call OO_INIDBI;
 _db_existiert = "exists" call _db;
 if (_db_existiert) then {
@@ -162,7 +186,8 @@ private _marker = "";
 {
   _marker = createMarker [format["m_loc_icon_%1",_foreachindex],[((_x select 1) select 0),((_x select 1) select 1) +50,0]];
   _marker setMarkerType "mil_dot";
-  _marker setmarkertext (format[" %1 - Geb:%2 Obj:%3 pkt:%4 LvL:%5",_x select 0,_x select 3,_x select 4,_x select 5,_x select 6]);
+  //_marker setmarkertext (format[" %1 - Geb:%2 Obj:%3 pkt:%4 LvL:%5",_x select 0,_x select 3,_x select 4,_x select 5,_x select 6]);
+  _marker setmarkertext (format["%1 LvL %2",_x select 0,_x select 6]);
   _marker = createMarker [format["m_loc_area_%1",_foreachindex],_x select 1];
   _marker setMarkerShape "ELLIPSE";
   _marker setMarkerSize [50, 50];

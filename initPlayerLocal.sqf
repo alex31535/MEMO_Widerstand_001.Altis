@@ -3,7 +3,7 @@
 
 // # funktionen---------------------------------------------------------------------------------------------------------------------------------------------------------
 fnc_a_garage_spieler_waehlt = compile preprocessfilelinenumbers "fnc\fnc_a_garage_spieler_waehlt.sqf";
-
+fnc_a_map_gruppenmissionswahl = compile preprocessfilelinenumbers "fnc\fnc_a_map_gruppenmissionswahl.sqf";
 
 // # auf spieler warten-----------------------------------------------------------------------------------------------------------------------------------auf spieler warten
 // # warten bis der spieler bereit ist
