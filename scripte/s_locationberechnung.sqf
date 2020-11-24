@@ -167,18 +167,16 @@ private _alle_loc_params_pkt_obj = [];
 } foreach _alle_loc_params;
 
 
-private _lvl_steps = [];
-for "_i" from 1 to 7 do {_lvl_steps pushback ((_pkt_max/7) * _i)};
+s_lvl_steps = [];
+for "_i" from 1 to 7 do {s_lvl_steps pushback (floor((_pkt_max/7) * _i))};
 
 private _dist_steps = [];
 //for "_i" from 1 to 7 do {_dist_steps pushback (((worldsize/7) * _i) +250)};
 for "_i" from 1 to 7 do {_dist_steps pushback (4500 * _i)};
 
-copytoclipboard (str _dist_steps); //[2528.85,5057.7,7586.54,10115.4,12644.2,15173.1,17701.9]
+//copytoclipboard (str _dist_steps);
 
-//[0,4388.57,8777.14,13165.7,17554.3,21942.9,26331.4]
-//[4388.57,8777.14,13165.7,17554.3,21942.9,26331.4,30720]
-//[4638.57,9027.14,13415.7,17804.3,22192.9,26581.4,30970]
+
 
 {
   _params = _x;
@@ -187,11 +185,7 @@ copytoclipboard (str _dist_steps); //[2528.85,5057.7,7586.54,10115.4,12644.2,151
   { /* grundsaetzlich wird nur die gebaeudedichte zur bestimmung des BASIS-levels beruecksichtigt... */
     if (_pkt < _x) exitwith {_lvl = _foreachindex};
     _lvl = 7;
-  } foreach _lvl_steps;
-  //{ /* einbindung der distanz zur bewertung des levels... */
-  //  if (((_params select 1) distance _pos_basis) < _x) exitwith {_lvl = _lvl + (_foreachindex -1)};//(floor(_foreachindex/3))};
-  //  _lvl = 7;
-  //} foreach _dist_steps;
+  } foreach s_lvl_steps;
 
   _dist = ((_params select 1) distance _pos_basis);
 
@@ -203,11 +197,6 @@ copytoclipboard (str _dist_steps); //[2528.85,5057.7,7586.54,10115.4,12644.2,151
   if (_dist > 27000) then {_lvl = _lvl + 1};
   if (_dist > 31500) then {_lvl = _lvl + 1};
 
-  //while {_dist > (_dist_steps select 0)} do {
-  //  _lvl = _lvl + 1;
-  //  _dist_steps deleteat 0;
-  //  if ((count _dist_steps) == 0) exitwith {};
-  //};
 
   _obj_liste = _params select 4;
   {/* der level wird direkt anhand uebergebener faktoren im kontext der gefundenen spezial-objekte aufgewertet... */
@@ -216,6 +205,7 @@ copytoclipboard (str _dist_steps); //[2528.85,5057.7,7586.54,10115.4,12644.2,151
   } foreach _obj_liste;
   if (_lvl > 7) then {_lvl = 7};
   _params pushback _lvl;
+  _params pushback "ColorRed";
   s_loc_params pushback _params;
 } foreach _alle_loc_params_pkt_obj;
 
