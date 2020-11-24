@@ -26,6 +26,8 @@ private _marker = createMarkerLocal ["m_lokal_missionswahl",_fake_pos];
 "m_lokal_missionswahl" setMarkertextlocal "Keine Auswahl";
 // # map erzwingen
 openMap [true, false];
+// # bekanntgabe max-lvl
+cutText [format["<t color='#ffa600' size='4'>Du kannst Einsatzziele Level <t color='#ff0000' size='6'>%1<t color='#ffa600' size='4'> auswaehlen!",_lvl_spieler], "PLAIN", -1, true, true];
 // # map-klick-analyse
 private _pos_marker = getmarkerpos "m_lokal_missionswahl";
 private _pos_marker_alt = _pos_marker;
@@ -71,6 +73,9 @@ while {visibleMap} do {
   };
 };
 // # abbruch sofern keine gueltige location ausgewaehlt
-if ((count _params) == 0) exitwith {cutText ["<t color='#ff0000' size='2'>Du hast kein Ziel ausgewaehlt!", "PLAIN", -1, true, true]};
+if ((count _params) == 0) exitwith {
+  [] remoteexec ["fnc_s_locmarker_selectarea_an_aus",2];
+  cutText ["<t color='#ff0000' size='2'>Du hast kein Ziel ausgewaehlt!", "PLAIN", -1, true, true];
+};
 
-cutText [format["<t color='#ffa600' size='6'>Neues Missionsziel: %1 Level %2!",_params select 0, _params select 6], "PLAIN", -1, true, true];
+_params remoteexec ["fnc_s_gruppenmission_starten",2];

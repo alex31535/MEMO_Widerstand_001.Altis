@@ -23,10 +23,22 @@ if (s_mission_params select 0) exitwith {
   [[format["<t color='#ff0000' size='2'>%1 ist noch aktiv!",s_mission_params select 1], "PLAIN", -1, true, true]] remoteExec ["cutText",_spieler];
 };
 
+if ((isdedicated) && {s_gruppenmission_min_anz_spieler > (count playableunits)}) exitwith {
+  [[format["<t color='#ff0000' size='2'>Es sind mindestens %1 Spieler noetig um eine Gruppenmission zu starten!",s_gruppenmission_min_anz_spieler], "PLAIN", -1, true, true]] remoteExec ["cutText",_spieler];
+};
+
+
 if ((count(playableunits inareaarray "m_area_basis")) < (count playableunits)) exitwith {
   [["<t color='#ff0000' size='2'>Zum Aufruf einer neuen Gruppenission muessen alle Spieler im HQ-Bereich sein!", "PLAIN", -1, true, true]] remoteExec ["cutText",_spieler];
 };
 
-private _lvl_spieler = 1;
 
-[_lvl_spieler,s_loc_params] remoteexec ["fnc_a_map_gruppenmissionswahl",_spieler];
+if ((s_spieler_oder_ki select 0) == "ki") exitwith {
+  [["<t color='#ff0000' size='6'>Nach der letzten Gruppenaktion ist nun die KI am Zug!", "PLAIN", -1, true, true]] remoteExec ["cutText",_spieler];
+  [] call fnc_s_gruppenmission_starten_ki;
+};
+
+[] call fnc_s_locmarker_selectarea_an_aus;
+
+private _lvl = [_spieler] call fnc_s_spielerlevel;
+[_lvl,s_loc_params] remoteexec ["fnc_a_map_gruppenmissionswahl",_spieler];
