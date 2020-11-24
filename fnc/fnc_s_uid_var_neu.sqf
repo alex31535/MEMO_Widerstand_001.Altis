@@ -19,7 +19,9 @@ private _uid_var = [
   /*["dir",0],*/ random 360,
   /*["haltung",""],*/ configName (configFile >> getText (configFile >> "CfgVehicles" >> typeOf _spieler >> "moves") >> "States" >> (animationState _spieler)),
   /*["schaden",0],*/ (getAllHitPointsDamage _spieler) select 2,
-  /*["loadout",[]]*/ s_loadout_basis
+  /*["loadout",[]]*/ s_loadout_basis,
+  /*5: ["punkte",0]*/(s_uid_var_eintraege select 5) select 1
 ];
 call compile format["s_%1 = _uid_var;",getplayeruid _spieler];
 systemchat format["fnc_s_uid_var_neu: neuer datensatz fuer %1 erstellt...",name _spieler];
+_uid_var

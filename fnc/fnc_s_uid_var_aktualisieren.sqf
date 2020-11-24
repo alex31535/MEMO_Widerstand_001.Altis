@@ -14,6 +14,7 @@
   of the author and guarantees no functionalities with other scripts and functions that were not developed by athor expilizit for it.
 */
 params ["_spieler"];
+private _uid = getplayeruid _spieler;
 private _uid_var = [
   /*["worldpos",[0,0,0]],*/ getposworld _spieler,
   /*["dir",0],*/ getdir _spieler,
@@ -21,5 +22,6 @@ private _uid_var = [
   /*["schaden",0],*/ (getAllHitPointsDamage _spieler) select 2,
   /*["loadout",[]]*/ getunitloadout _spieler
 ];
-call compile format["s_%1 = _uid_var;",getplayeruid _spieler];
+call compile format["_uid_var pushback (s_%1 select 5);",_uid];
+call compile format["s_%1 = _uid_var;",_uid];
 systemchat format["fnc_s_uid_var_aktualisieren: datensatz fuer %1 aktualisiert...",name _spieler];
