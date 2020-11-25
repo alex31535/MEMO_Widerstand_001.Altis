@@ -28,8 +28,24 @@ fnc_s_gruppenmission_starten = compile preprocessfilelinenumbers "fnc\fnc_s_grup
 fnc_s_gruppenmission_starten_ki = compile preprocessfilelinenumbers "fnc\fnc_s_gruppenmission_starten_ki.sqf";
 fnc_s_locmarker_selectarea_an_aus = compile preprocessfilelinenumbers "fnc\fnc_s_locmarker_selectarea_an_aus.sqf";
 
+fnc_s_cityring_strassenliste = compile preprocessfilelinenumbers "fnc\fnc_s_cityring_strassenliste.sqf";
+fnc_s_cityring_strassen_besetzen = compile preprocessfilelinenumbers "fnc\fnc_s_cityring_strassen_besetzen.sqf";
+fnc_s_debugmarker_erstellen = compile preprocessfilelinenumbers "fnc\fnc_s_debugmarker_erstellen.sqf";
+fnc_s_unit_konfig_skills = compile preprocessfilelinenumbers "fnc\fnc_s_unit_konfig_skills.sqf";
+fnc_s_wp_area_strassen = compile preprocessfilelinenumbers "fnc\fnc_s_wp_area_strassen.sqf";
+fnc_s_positionen_innerhalb_haus = compile preprocessfilelinenumbers "fnc\fnc_s_positionen_innerhalb_haus.sqf";
+
+fnc_s_feindkonfig = compile preprocessfilelinenumbers "fnc\fnc_s_feindkonfig.sqf";
 //----------------------------------------------------------------------------------------------------------------------------------------------------------<system-globals
 systemchat "Setze statische Globals...";
+// # globale debug-markierungen ?
+s_debugmarker = true; if (isdedicated) then {s_debugmarker = false};
+if (s_debugmarker) then {
+  systemchat "initialisiere Debugmarkierer...";
+  s_debugmarker_kennung = "DeBuG";
+  s_debugmarker_farben = [/*0:EAST*/"ColorEAST",/*1:WEST*/"ColorWEST",/*2:RESISTANCE*/"ColorGUER",/*3:CIVILIAN*/"ColorCIV",/*4:NEUTRAL*/"ColorUNKNOWN"];
+  [] execVM "scripte\init_debugmarker.sqf";
+};
 // # spiel-version, auch relevant bei db-zuordnung
 s_pref_spiel = "mw_001"; // mw == memo widerstand
 // # temp-var um zu vermeiden, dass zu viele db-zugriffe gleichzeitig stattfinden
@@ -68,7 +84,17 @@ if (_db_existiert) then {
 } else {
   ["write",["s_spieler_oder_ki","s_spieler_oder_ki",s_spieler_oder_ki]] call _db;
 };
+// # globale feindseite feststellen
+s_feind_seite = east;
+// universelle feind-klasse
+s_feind_klasse = "O_Soldier_F";
+// universelle zivil-klasse
+s_zivil_klasse = "C_man_p_fugitive_F";
 
+//----------------------------------------------------------------------------------------------------------------------------------------------------<listen inkludieren
+systemchat "Inkludiere Listen...";
+s_feindausstattung = [];
+#include "s_feindausstattung.hpp"
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------<Parameter auf Editor-Objekte
 systemchat "Editor-Objekte: Parameter...";
@@ -254,6 +280,11 @@ addMissionEventHandler ["HandleDisconnect", {
   [_spieler] call fnc_s_uid_var_schreiben;
   deletevehicle _spieler;
 }];
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------<objektmuelleimer
+systemchat "Starte Objekmuelleimer...";
+s_objektmuelleimer = [/*[obj,dist]*/];
+[] execvm "scripte\init_objektmuelleimer.sqf";
 
 // -------------------------------------------------------------------------------------------------------------------------------------------------------------BEENDIGUNG BEKANNTGEBEN
 systemchat "Initialisierungen beendet...";
