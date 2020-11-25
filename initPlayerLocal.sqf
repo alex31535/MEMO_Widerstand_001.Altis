@@ -56,8 +56,12 @@ if (!isserver) exitwith {};
 
 if ((getplayeruid player) == "76561197996449012") then {
 	[] execvm "debug\testscript.sqf";
-	player addAction ["DEBUGACTION", "debug\debugaction.sqf"];
-	player addAction ["DEBUGDISCONNECT", "debug\debugdisconnect.sqf"];
+	player addAction ["DEBUG: ACTION", "debug\debugaction.sqf"];
+	player addAction ["DEBUG: DISCONNECT", "debug\debugdisconnect.sqf"];
+	player addAction ["DEBUG: Schaden An/Aus", "debug\debug_gottmodus.sqf"];
+	player addAction ["DEBUG: Captive An/Aus", "debug\debug_captive.sqf"];
+	player addAction ["DEBUG: Positionssprung", "debug\debug_mappos.sqf"];
+	player addAction ["DEBUG: Loadout AT", "player setunitloadout ""B_soldier_LAT_F"""];
 };
 
 
@@ -66,11 +70,10 @@ while {true} do {
 	hintsilent parsetext _text;
 	_text = "";
 	_text = _text + format["<br />FPS: %1",floor(diag_fps)];
-	_text = _text + format["<br />vec-mod: %1 ",((((configSourceMod(configFile >> "CfgVehicles" >> (typeof(objectparent player)))) splitstring "@") select 0) splitString " ") joinString "_"];
-	if (! isnil "s_sys_landfahrzeuge_1") then {_text = _text + format["<br />landfahrzeuge: %1 ", count s_sys_landfahrzeuge_1]};
-	if (! isnil "s_sys_landfahrzeuge_1") then {_text = _text + format["<br />luftfahrzeuge: %1 ", count s_sys_luftfahrzeuge_1]};
-	if (! isnil "s_sys_landfahrzeuge_1") then {_text = _text + format["<br />wasserfahrzeuge: %1 ", count s_sys_wasserfahrzeuge_1]};
-	_text = _text + format["<br />onroad: %1",isonroad (position player)];
+	//------
+	_text = _text + format["<br />Spielerschaden: %1",isDamageAllowed player];
+	//------
+	_text = _text + format["<br />Captive: %1",captive player];
 	//------
 	_pos_ende = (eyePos player) vectorAdd ((player weaponDirection(currentWeapon player)) vectorMultiply 1.2);
 	if (weaponLowered player) then {_pos_ende = (eyePos player) vectorAdd ((eyeDirection player) vectorMultiply 1.2)};
@@ -79,18 +82,27 @@ while {true} do {
 	if ((count _liste_lineintersect) >1) then {_intersect_obj = _liste_lineintersect select 2};
 	_text = _text + format["<br />intersect: %1",_intersect_obj];
 	//------
+	//_text = _text + format["<br />vec-mod: %1 ",((((configSourceMod(configFile >> "CfgVehicles" >> (typeof(objectparent player)))) splitstring "@") select 0) splitString " ") joinString "_"];
+	//------
+	//if (! isnil "s_sys_landfahrzeuge_1") then {_text = _text + format["<br />landfahrzeuge: %1 ", count s_sys_landfahrzeuge_1]};
+	//if (! isnil "s_sys_landfahrzeuge_1") then {_text = _text + format["<br />luftfahrzeuge: %1 ", count s_sys_luftfahrzeuge_1]};
+	//if (! isnil "s_sys_landfahrzeuge_1") then {_text = _text + format["<br />wasserfahrzeuge: %1 ", count s_sys_wasserfahrzeuge_1]};
+	//------
+	//_text = _text + format["<br />onroad: %1",isonroad (position player)];
+	//------
 	//_uid_var = [];
 	//call compile format["_uid_var = if (isnil ""s_%1"") then [{[]},{s_%1}];",getplayeruid player];
 	//{_text = _text + format["<br />uidvar %1: %2",_x select 0,_uid_var select _foreachindex]} foreach s_uid_var_eintraege;
 	//------
-	if (!isnil "fnc_s_loadout_zu_objektliste") then {
-		_objektliste = [player] call fnc_s_loadout_zu_objektliste;
-		_text = _text + format["<br />_objektliste: %1",_objektliste];
-	};
+	//if (!isnil "fnc_s_loadout_zu_objektliste") then {
+	//	_objektliste = [player] call fnc_s_loadout_zu_objektliste;
+	//	_text = _text + format["<br />_objektliste: %1",_objektliste];
+	//};
 	//------
-	if (!isnil "s_map_mods")then {
-	 _text = _text + format["<br />s_map_mods: %1",s_map_mods];
- };
+	//if (!isnil "s_map_mods")then {
+	// _text = _text + format["<br />s_map_mods: %1",s_map_mods];
+ 	//};
+
 
 
   uisleep 0.3;
