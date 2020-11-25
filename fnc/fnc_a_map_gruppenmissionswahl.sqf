@@ -32,6 +32,7 @@ cutText [format["<t color='#ffa600' size='4'>Du kannst Einsatzziele Level <t col
 private _pos_marker = getmarkerpos "m_lokal_missionswahl";
 private _pos_marker_alt = _pos_marker;
 private _params = [];
+private _params_index = -1;
 private _markerfarbe_loc = "";
 while {visibleMap} do {
   onMapSingleClick "'m_lokal_missionswahl' setmarkerposlocal _pos;"; //
@@ -41,6 +42,7 @@ while {visibleMap} do {
     cutText ["", "PLAIN", -1, true, true];
     {
       if (_pos_marker inarea (format["m_loc_area_%1",_foreachindex])) exitwith {
+        _params_index = _foreachindex;
         _params = _x;
         _markerfarbe_loc = markercolor (format["m_loc_area_%1",_foreachindex]);
       };
@@ -72,10 +74,14 @@ while {visibleMap} do {
     };
   };
 };
+
+deleteMarkerLocal "m_lokal_missionswahl";
+[] remoteexec ["fnc_s_locmarker_selectarea_an_aus",2];
+
 // # abbruch sofern keine gueltige location ausgewaehlt
 if ((count _params) == 0) exitwith {
-  [] remoteexec ["fnc_s_locmarker_selectarea_an_aus",2];
   cutText ["<t color='#ff0000' size='2'>Du hast kein Ziel ausgewaehlt!", "PLAIN", -1, true, true];
 };
 
-_params remoteexec ["fnc_s_gruppenmission_starten",2];
+[_params_index] remoteexec ["fnc_s_gruppenmission_starten",2];
+//_params remoteexec ["fnc_s_gruppenmission_starten",2];
