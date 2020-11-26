@@ -95,6 +95,9 @@ s_zivil_klasse = "C_man_p_fugitive_F";
 systemchat "Inkludiere Listen...";
 s_feindausstattung = [];
 #include "s_feindausstattung.hpp"
+s_feind_fzg_land_bewaffnet = [];
+#include "s_feind_fzg_land_bewaffnet.hpp"
+
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------<Parameter auf Editor-Objekte
 systemchat "Editor-Objekte: Parameter...";
