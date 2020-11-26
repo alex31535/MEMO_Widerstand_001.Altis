@@ -56,11 +56,11 @@ private _strassen_gesperrt_ring_2 = [_loc_area2,[]] call fnc_s_cityring_strassen
 
 // # ring-strassen besetzen um eine anz fuer verbleibende objekte zu bekommen
 //systemchat "generieren #2"; uisleep 3;
-private _objektliste_ringbesetzung = [_strassen_gesperrt_ring_0, _def_auswahl_vec_ring_0] call fnc_s_cityring_strassen_besetzen;
+private _objektliste_ringbesetzung = [_strassen_gesperrt_ring_0, s_feind_fzg_land_bewaffnet select _loc_lvl] call fnc_s_cityring_strassen_besetzen;
 private _erstellte_objekte = _objektliste_ringbesetzung;
-_objektliste_ringbesetzung = [_strassen_gesperrt_ring_1, _def_auswahl_vec_ring_1] call fnc_s_cityring_strassen_besetzen;
+_objektliste_ringbesetzung = [_strassen_gesperrt_ring_1, s_feind_fzg_land_bewaffnet select _loc_lvl] call fnc_s_cityring_strassen_besetzen;
 _erstellte_objekte append _objektliste_ringbesetzung;
-_objektliste_ringbesetzung = [_strassen_gesperrt_ring_2, _def_auswahl_vec_ring_2] call fnc_s_cityring_strassen_besetzen;
+_objektliste_ringbesetzung = [_strassen_gesperrt_ring_2, s_feind_fzg_land_bewaffnet select _loc_lvl] call fnc_s_cityring_strassen_besetzen;
 _erstellte_objekte append _objektliste_ringbesetzung;
 
 
@@ -105,11 +105,9 @@ while {_anz_feinde_strasse > 0} do {
     _gruppe = creategroup [s_feind_seite,true];
     for "_i" from 0 to _gruppenstaerke do {
       _unit = _gruppe createUnit [s_feind_klasse, [0,0,0], [], 0, "NONE"];
-      [_unit,_loc_lvl] call fnc_s_feindkonfig;
       _erstellte_objekte pushback _unit;
       if ((!isnil "s_debugmarker") && {s_debugmarker}) then {[_unit] call fnc_s_debugmarker_erstellen};
     };
-    {[_x,_DEF_ki_level_min,_DEF_ki_level_max] call fnc_s_unit_konfig_skills} foreach (units _gruppe);
     [_gruppe, _loc_area0, true, "SAFE", "LIMITED",_strassen_area0] call fnc_s_wp_area_strassen;
     _anz_feinde_strasse = _anz_feinde_strasse - (count(units _gruppe));
   };
@@ -126,7 +124,6 @@ while {_anz_zivilisten_strasse > 0} do {
   _zivilisten pushback _unit;
   [group _unit, _loc_area0, true, "SAFE", "LIMITED",_strassen_area0] call fnc_s_wp_area_strassen;
   _anz_zivilisten_strasse = _anz_zivilisten_strasse - (count(units(group _unit)));
-  [_unit,_DEF_ki_level_min,_DEF_ki_level_max] call fnc_s_unit_konfig_skills;
 };
 
 
@@ -142,10 +139,8 @@ while {_anz_feinde_haus > 0} do {
     _unit = (creategroup [s_feind_seite,true]) createUnit [s_feind_klasse, [0,0,0], [], 0, "NONE"];
     _unit setposasl (agltoasl(selectrandom _positionen_im_haus));
     _unit setdir (random 360);
-    [_unit,_loc_lvl] call fnc_s_feindkonfig;
     _erstellte_objekte pushback _unit;
     if ((!isnil "s_debugmarker") && {s_debugmarker}) then {[_unit] call fnc_s_debugmarker_erstellen};
-    [_unit,_DEF_ki_level_min,_DEF_ki_level_max] call fnc_s_unit_konfig_skills;
   };
   _anz_feinde_haus = _anz_feinde_haus - (count(units(group _unit)));
 };
@@ -164,10 +159,27 @@ while {_anz_zivilisten_haus > 0} do {
     _erstellte_objekte pushback _unit;
     _zivilisten pushback _unit;
     if ((!isnil "s_debugmarker") && {s_debugmarker}) then {[_unit] call fnc_s_debugmarker_erstellen};
-    [_unit,_DEF_ki_level_min,_DEF_ki_level_max] call fnc_s_unit_konfig_skills;
   };
   _anz_zivilisten_haus = _anz_zivilisten_haus - (count(units(group _unit)));
 };
+
+
+
+// alle bisherigen feind- und zivil-units konfigurieren
+{
+  if (_x iskindof "MAN") then {
+    _unit = _x;
+    if ((side _x) == s_feind_seite) then {
+      [_unit,_loc_lvl] call fnc_s_feindkonfig;
+    } else {
+      {_unit disableAI _x} foreach ["AUTOTARGET","FSM","AIMINGERROR","COVER","AUTOCOMBAT"];
+    };
+  };
+} foreach _erstellte_objekte;
+
+
+
+
 
 
 // # zielperson in einem haus erstellen
@@ -203,13 +215,7 @@ _marker setmarkertext _intel_text;
 _erstellte_marker pushback _marker;
 
 
-// # zivilisten konfigurieren
-{
-  _unit = _x;
-  {
-    _unit disableAI _x;
-  } foreach ["AUTOTARGET","FSM","AIMINGERROR","COVER","AUTOCOMBAT"];
-} foreach _zivilisten;
+
 
 
 {
