@@ -4,7 +4,7 @@
   Version: 1.02
 	Description:
   Called by:
-	Parameters:
+	Parameters: params ["_unit","_lvl"] fnc_s_feindkonfig
 	Returns:
   Necessary Globals:
 	Necessary functions:
