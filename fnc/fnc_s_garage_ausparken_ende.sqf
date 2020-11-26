@@ -18,13 +18,13 @@ private _area = []; call compile format["_area = %1;",_area_str];
 private _fzg_in_garagenbereich = [_area] call fnc_s_garage_blockiert;
 _fzg_in_garagenbereich params ["_fzg", "_fzg_klasse", "_fzg_displayname"];
 if !(isnull _fzg) exitwith {};
-private _vec = _datensatz createVehicle [0,0,0];
+private _vec = _datensatz createVehicle _pos;//[0,0,1000];
 clearWeaponCargoGlobal _vec;
 clearMagazineCargoGlobal _vec;
 clearBackpackCargoGlobal _vec;
 clearItemCargoGlobal _vec;
 _vec setdir _dir;
-_vec setpos _pos;
+//_vec setpos _pos;
 _vec setVariable ["tf_hasRadio", true, true];
 
 
