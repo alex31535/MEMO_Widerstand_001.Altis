@@ -24,7 +24,6 @@ clearMagazineCargoGlobal _vec;
 clearBackpackCargoGlobal _vec;
 clearItemCargoGlobal _vec;
 _vec setdir _dir;
-//_vec setpos _pos;
 _vec setVariable ["tf_hasRadio", true, true];
 
 
