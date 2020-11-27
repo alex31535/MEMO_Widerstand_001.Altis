@@ -36,6 +36,11 @@ fnc_s_wp_area_strassen = compile preprocessfilelinenumbers "fnc\fnc_s_wp_area_st
 fnc_s_positionen_innerhalb_haus = compile preprocessfilelinenumbers "fnc\fnc_s_positionen_innerhalb_haus.sqf";
 
 fnc_s_feindkonfig = compile preprocessfilelinenumbers "fnc\fnc_s_feindkonfig.sqf";
+
+fnc_s_area_boni_fzg_land = compile preprocessfilelinenumbers "fnc\fnc_s_area_boni_fzg_land.sqf";
+fnc_s_pos_dir_strassenrand = compile preprocessfilelinenumbers "fnc\fnc_s_pos_dir_strassenrand.sqf";
+fnc_s_strassenauswahl = compile preprocessfilelinenumbers "fnc\fnc_s_strassenauswahl.sqf";
+fnc_s_winkel_pos1_zu_pos2 = compile preprocessfilelinenumbers "fnc\fnc_s_winkel_pos1_zu_pos2.sqf";
 //----------------------------------------------------------------------------------------------------------------------------------------------------------<system-globals
 systemchat "Setze statische Globals...";
 // # globale debug-markierungen ?
@@ -97,7 +102,8 @@ s_feindausstattung = [];
 #include "s_feindausstattung.hpp"
 s_feind_fzg_land_bewaffnet = [];
 #include "s_feind_fzg_land_bewaffnet.hpp"
-
+s_feind_fzg_land_bewaffnet_west = [];
+#include "s_feind_fzg_land_bewaffnet_west.hpp"
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------<Parameter auf Editor-Objekte
 systemchat "Editor-Objekte: Parameter...";
@@ -180,17 +186,17 @@ s_garage_area = [
 s_garage_pflicht = [
 /* lvl 0*/ "C_Tractor_01_F"
 ];
-// # liste aller kettenfahrzeuge
+// # liste aller kettenfahrzeuge IN DER GARAGE
 s_garage_kette = [];
-// # liste aller radfahrzeuge
+// # liste aller radfahrzeuge IN DER GARAGE
 s_garage_rad = [
-"C_Tractor_01_F"
+"C_Tractor_01_F" /* ...gilt als starteintrag bei nei-initialisierung der db */
 ];
-// # liste aller helikopter
+// # liste aller helikopter IN DER GARAGE
 s_garage_heli = [];
-// # liste aller flugzeuge
+// # liste aller flugzeuge IN DER GARAGE
 s_garage_flug = [];
-// # liste aller wasserfahrzeuge
+// # liste aller wasserfahrzeuge IN DER GARAGE
 s_garage_boot = [];
 // # db aufrufen und ggf die obigen erststart-parameter ueberschreiben
 {
