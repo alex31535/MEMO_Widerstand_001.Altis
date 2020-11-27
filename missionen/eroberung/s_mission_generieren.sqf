@@ -216,6 +216,10 @@ _erstellte_marker pushback _marker;
 
 
 
+// # boni fzg setzen
+private _liste_boni_fzg = [_loc_area0,_loc_lvl] call fnc_s_area_boni_fzg_land;
+{_erstellte_objekte pushback _x} foreach _liste_boni_fzg;
+
 
 
 {
