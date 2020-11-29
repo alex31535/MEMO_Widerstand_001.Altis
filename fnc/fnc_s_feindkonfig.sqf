@@ -36,3 +36,4 @@ if (_waffen_params select 2) then {
   _loadout set [4,[]];
 };
 _unit setunitloadout _loadout;
+_unit allowfleeing 0;
