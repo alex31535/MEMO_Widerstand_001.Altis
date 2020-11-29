@@ -26,7 +26,7 @@
 
 
 
-private _loc_params = s_loc_params select (s_mission_params select 3); // im fall EROBERUNG ist der index auf s_loc_params in s_mission_params(3) hinterlegt
+private _loc_params = s_loc_params select (s_mission_params select 3);
 private _loc_name = _loc_params select 0;
 private _loc_pos = _loc_params select 1;
 private _loc_groesse = _loc_params select 2;
@@ -34,7 +34,7 @@ private _loc_geb_dichte = _loc_params select 3;
 private _loc_dichte_obj = _loc_params select 4;
 private _loc_pkt = _loc_params select 5;
 private _loc_lvl = _loc_params select 6;
-private _loc_farbe = _loc_params select 7;;
+private _loc_farbe = _loc_params select 7;
 
 
 
@@ -263,6 +263,13 @@ switch (_missionsende_resultat) do {
     {
       [["<t color='#54d916' size='6'>MISSION ERFOLGREICH - Sie haben die Zielperson eliminiert und damit die Region erfolgreich destabilisiert!", "PLAIN", -1, true, true]] remoteExec ["cutText",_x];
     } foreach playableunits;
+    _loc_params set [7,"ColorGreen"];
+    s_loc_params set [s_mission_params select 3,_loc_params];
+    (format["m_loc_icon_%1",s_mission_params select 3]) setmarkercolor (_loc_params select 7);
+    while {s_db_aktiv} do {uisleep 0.3}; s_db_aktiv = true;
+    private _db = ["new", format["%1_s_loc_params_%2",s_pref_spiel,(toLowerANSI worldname)]] call OO_INIDBI;
+    {["write",[_x select 0,_x select 0,_x]] call _db;} foreach s_loc_params;
+    s_db_aktiv = false;
   };
   case "zu viele zivile opfer": {
     {
