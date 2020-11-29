@@ -27,7 +27,7 @@ private _vorhandene_fzg_klassen = [];
 private _liste_boni_fzg_klassen = [];
 private _fzg_klasse = "";
 while {(count _liste_boni_fzg_klassen) < _DEF_min_anz} do {
-  _fzg_klasse = selectrandom (s_feind_fzg_land_bewaffnet_west select (random(floor(_lvl_auswahl_max)))));
+  _fzg_klasse = selectrandom (s_feind_fzg_land_bewaffnet_west select (random(floor(_lvl_auswahl_max))));
   if ((_vorhandene_fzg_klassen find _fzg_klasse) == -1) then {_liste_boni_fzg_klassen pushback _fzg_klasse};
 };
 // # strassen (ohne kreuzungen) innerhalb der mittleren kernzone bestimmen und "besetzte" strassen ausschliessen

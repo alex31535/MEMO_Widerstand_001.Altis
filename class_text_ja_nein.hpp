@@ -25,7 +25,7 @@ class class_text_ja_nein {
 		class btn_yes: RscButton
 		{
 			idc = 3013;
-			text = "YES"; //--- ToDo: Localize;
+			text = "JA"; //--- ToDo: Localize;
 			x = 0.358973 * safezoneW + safezoneX;
 			y = 0.584635 * safezoneH + safezoneY;
 			w = 0.0749206 * safezoneW;
@@ -34,7 +34,7 @@ class class_text_ja_nein {
 		class btn_no: RscButton
 		{
 			idc = 3014;
-			text = "NO"; //--- ToDo: Localize;
+			text = "NEIN"; //--- ToDo: Localize;
 			x = 0.570513 * safezoneW + safezoneX;
 			y = 0.584635 * safezoneH + safezoneY;
 			w = 0.0749206 * safezoneW;

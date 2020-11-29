@@ -49,14 +49,14 @@ switch (_loc_farbe) do {
     _waffenkammernutzung = true;
   };
   case "ColorGreen": {
-    _missionstyp = "test";
-    _missionsname = format["Test(Gruen): %1 Level %2",_loc_name,_loc_lvl];
-    _garagennutzung = false;
-    _waffenkammernutzung = false;
+    _missionstyp = "stabilisieren";
+    _missionsname = format["Stabilisieren: %1 Level %2",_loc_name,_loc_lvl];
+    _garagennutzung = true;
+    _waffenkammernutzung = true;
   };
   case "ColorBlue": {
-    _missionstyp = "test";
-    _missionsname = format["Test(Blau): %1 Level %2",_loc_name,_loc_lvl];
+    _missionstyp = "verteidigen";
+    _missionsname = format["Verteidigen: %1 Level %2",_loc_name,_loc_lvl];
     _garagennutzung = false;
     _waffenkammernutzung = false;
   };
