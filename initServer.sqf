@@ -168,8 +168,8 @@ s_whitelist_waffen = [
 {
   _db = ["new", format["%1_%2_%3",s_pref_spiel,_x,(toLowerANSI worldname)]] call OO_INIDBI;
   _db_existiert = "exists" call _db;
-  if (_db_existiert) then {call compile format["s_whitelist_%1 = [""read"",[""whitelist"",""%1""]] call _db;",_x]};
-} foreach ["rucksaecke","items","munition","waffen"];
+  if (_db_existiert) then {call compile format["%1 = [""read"",[""%1"",""%1""]] call _db;",_x]};
+} foreach ["s_whitelist_rucksaecke","s_whitelist_items","s_whitelist_munition","s_whitelist_waffen"];
 
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------<garage
