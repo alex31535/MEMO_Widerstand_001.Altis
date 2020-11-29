@@ -34,11 +34,9 @@ if ((count(playableunits inareaarray "m_area_basis")) < (count playableunits)) e
 
 
 if ((s_spieler_oder_ki select 0) == "ki") exitwith {
-  [["<t color='#ff0000' size='6'>Nach der letzten Gruppenaktion ist nun die KI am Zug!", "PLAIN", -1, true, true]] remoteExec ["cutText",_spieler];
-  [] call fnc_s_gruppenmission_starten_ki;
+  [] remoteexec ["fnc_a_gruppenmission_starten_ki",_spieler];
 };
 
-[] call fnc_s_locmarker_selectarea_an_aus;
 
 private _lvl = [_spieler] call fnc_s_spielerlevel;
 [_lvl,s_loc_params] remoteexec ["fnc_a_map_gruppenmissionswahl",_spieler];

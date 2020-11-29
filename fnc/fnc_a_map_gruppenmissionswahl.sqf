@@ -13,6 +13,18 @@
   of the Author and guarantees no Functionalities with other Scripts and Functions that were not developed by Athor expilizit for it.
 */
 params ["_lvl_spieler","_loc_params"];
+
+// # einen ja/nein-box wird eingeblendet um auf level-wah hinzuweisen; eine lokale namespace-var wird benutzt um limitierungen im namespace-dialog zu umgehen
+a_temp_ja_nein = false;
+private _text = format["<t color='#ff9900' size='2'>Entsprechend deinem persoenlichen Level, kannst du Missionen bis Level <t color='#e9f50c' size='3'>%1<t color='#ff9900' size='2'> waehlen! Moechtest du fortfahren?",_lvl_spieler];
+[_text] call fnc_a_ja_nein;
+if (!a_temp_ja_nein) exitwith {a_temp_ja_nein = nil};
+a_temp_ja_nein = nil;
+
+// # ggf auswahlareas einblenden
+[] remoteexec ["fnc_s_locmarker_selectarea_an_aus",2];
+
+
 private _mapitem_hinzugefuegt = true;
 private _fake_pos = position player;//[random(worldSize/2),random(worldSize/2),0];
 // # pruefen ob map im inventar des spielers vorhanden
