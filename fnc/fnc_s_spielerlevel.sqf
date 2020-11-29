@@ -17,5 +17,5 @@ params ["_spieler"];
 private _pkt = 0;
 private _lvl = 0;
 call compile format["_pkt = s_%1 select 5;",getplayeruid _spieler];
-{if (_pkt < _x) exitwith {_lvl = (_foreachindex -1)};_lvl = 7} foreach s_lvl_steps;
+{if (_pkt < _x) exitwith {_lvl = _foreachindex};_lvl = 7} foreach s_lvl_steps;
 _lvl
