@@ -41,6 +41,10 @@ fnc_s_area_boni_fzg_land = compile preprocessfilelinenumbers "fnc\fnc_s_area_bon
 fnc_s_pos_dir_strassenrand = compile preprocessfilelinenumbers "fnc\fnc_s_pos_dir_strassenrand.sqf";
 fnc_s_strassenauswahl = compile preprocessfilelinenumbers "fnc\fnc_s_strassenauswahl.sqf";
 fnc_s_winkel_pos1_zu_pos2 = compile preprocessfilelinenumbers "fnc\fnc_s_winkel_pos1_zu_pos2.sqf";
+
+fnc_s_wasser_zwischen_a_und_b = compile preprocessfilelinenumbers "fnc\fnc_s_wasser_zwischen_a_und_b.sqf";
+fnc_s_pos_im_wald = compile preprocessfilelinenumbers "fnc\fnc_s_pos_im_wald.sqf";
+
 //----------------------------------------------------------------------------------------------------------------------------------------------------------<system-globals
 systemchat "Setze statische Globals...";
 // # globale debug-markierungen ?
