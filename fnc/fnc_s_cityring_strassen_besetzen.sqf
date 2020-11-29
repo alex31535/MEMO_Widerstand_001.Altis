@@ -21,6 +21,10 @@ private _erstellte_objekte = [];
   _vec setdir (random 360);
   _erstellte_objekte pushback _vec;
   createVehicleCrew _vec;
+  clearBackpackCargoGlobal _vec;
+  clearItemCargoGlobal _vec;
+  clearMagazineCargoGlobal _vec;
+  clearWeaponCargoGlobal _vec;
   _erstellte_objekte append (crew _vec);
   if ((!isnil "s_debugmarker") && {s_debugmarker}) then {
     [_vec] call fnc_s_debugmarker_erstellen;
