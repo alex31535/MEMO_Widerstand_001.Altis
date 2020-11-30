@@ -1,4 +1,4 @@
-# MEMO_Widerstand_001.Altis
+# MEMO_Widerstand.Altis
 
 Benötigte MODs:
 alle bislang initialisierten mods die auf dem offiziellen server gültig sind.
