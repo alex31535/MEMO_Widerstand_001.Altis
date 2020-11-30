@@ -56,11 +56,11 @@ private _strassen_gesperrt_ring_2 = [_loc_area2,[]] call fnc_s_cityring_strassen
 
 // # ring-strassen besetzen um eine anz fuer verbleibende objekte zu bekommen
 //systemchat "generieren #2"; uisleep 3;
-private _objektliste_ringbesetzung = [_strassen_gesperrt_ring_0, s_feind_fzg_land_bewaffnet select _loc_lvl] call fnc_s_cityring_strassen_besetzen;
+private _objektliste_ringbesetzung = [_strassen_gesperrt_ring_0, s_fzg_land_bewaffnet_east select _loc_lvl] call fnc_s_cityring_strassen_besetzen;
 private _erstellte_objekte = _objektliste_ringbesetzung;
-_objektliste_ringbesetzung = [_strassen_gesperrt_ring_1, s_feind_fzg_land_bewaffnet select _loc_lvl] call fnc_s_cityring_strassen_besetzen;
+_objektliste_ringbesetzung = [_strassen_gesperrt_ring_1, s_fzg_land_bewaffnet_east select _loc_lvl] call fnc_s_cityring_strassen_besetzen;
 _erstellte_objekte append _objektliste_ringbesetzung;
-_objektliste_ringbesetzung = [_strassen_gesperrt_ring_2, s_feind_fzg_land_bewaffnet select _loc_lvl] call fnc_s_cityring_strassen_besetzen;
+_objektliste_ringbesetzung = [_strassen_gesperrt_ring_2, s_fzg_land_bewaffnet_east select _loc_lvl] call fnc_s_cityring_strassen_besetzen;
 _erstellte_objekte append _objektliste_ringbesetzung;
 
 
