@@ -45,6 +45,8 @@ fnc_s_winkel_pos1_zu_pos2 = compile preprocessfilelinenumbers "fnc\fnc_s_winkel_
 fnc_s_wasser_zwischen_a_und_b = compile preprocessfilelinenumbers "fnc\fnc_s_wasser_zwischen_a_und_b.sqf";
 fnc_s_pos_im_wald = compile preprocessfilelinenumbers "fnc\fnc_s_pos_im_wald.sqf";
 
+fnc_s_create_unit_startpos_move_zielpos = compile preprocessfilelinenumbers "fnc\fnc_s_create_unit_startpos_move_zielpos.sqf";
+fnc_s_create_vec_trans_startpos_move_zielpos = compile preprocessfilelinenumbers "fnc\fnc_s_create_vec_trans_startpos_move_zielpos.sqf";
 //----------------------------------------------------------------------------------------------------------------------------------------------------------<system-globals
 systemchat "Setze statische Globals...";
 // # globale debug-markierungen ?
@@ -104,10 +106,10 @@ s_zivil_klasse = "C_man_p_fugitive_F";
 systemchat "Inkludiere Listen...";
 s_feindausstattung = [];
 #include "s_feindausstattung.hpp"
-s_feind_fzg_land_bewaffnet = [];
-#include "s_feind_fzg_land_bewaffnet.hpp"
-s_feind_fzg_land_bewaffnet_west = [];
-#include "s_feind_fzg_land_bewaffnet_west.hpp"
+s_fzg_land_bewaffnet_east = [];
+#include "s_fzg_land_bewaffnet_east.hpp"
+s_fzg_land_bewaffnet_west = [];
+#include "s_fzg_land_bewaffnet_west.hpp"
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------<Parameter auf Editor-Objekte
 systemchat "Editor-Objekte: Parameter...";
