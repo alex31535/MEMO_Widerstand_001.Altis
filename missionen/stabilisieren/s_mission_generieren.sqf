@@ -83,6 +83,7 @@ _erstellte_marker pushback _marker;
 
 
 
+
 // # spawn-punkte fuer inf bestimmen: separiert von vec-spawnpos-suche, da unterschiedliche distanzen
 private _liste_spawnpos_inf = []; // <--- uebergabe-var
 private _dist = (_gen_params select 3) + (_gen_params select 12) - (_DEF_dist_toleranz/2);
@@ -193,14 +194,19 @@ private _vec = objnull;
 
 private _flaggenzone = [(position _fahne), _gen_params select 3, _gen_params select 3, 0, false];
 
+private _erstellte_obj_fnc = [];
+
 while {s_mission_params select 0} do {
-  // # anz aktueller spieler im missionsbereich
-  //_anz_spieler = count((playableunits inareaarray "m_fahne_area") select {alive _x});
+
   // # reset auf variablen
   _spawn_typ = "";
+
+
   // # listen pruefen
   _erstellte_objekte = _erstellte_objekte select {!isnull _x};
   _erstellte_objekte = _erstellte_objekte select {alive _x};
+
+
   // # spawn-zeit erreicht?
   if (time > _zeitstempel_spawn) then {
     _vert_random_spawn call BIS_fnc_arrayShuffle;
@@ -208,91 +214,37 @@ while {s_mission_params select 0} do {
     _zeitstempel_spawn = time + (_gen_params select 0);
   };
 
+
   // # ggf spawn ausloesen
   if ((_spawn_typ != "") && {(count _erstellte_objekte) < ((_gen_params select 2))}) then {
     if (_spawn_typ == "inf") then {
       _liste_spawnpos_inf call BIS_fnc_arrayShuffle;
-      _unit = (creategroup [s_feind_seite,true]) createUnit [s_feind_klasse, [0,0,0], [], 0, "NONE"];
-      _unit setposasl (agltoasl (selectrandom _liste_spawnpos_inf));
-      _unit setdir (random 360);
-      [_unit,_loc_lvl] call fnc_s_feindkonfig;
-      _gruppe = group _unit;
-      while {(count(waypoints _gruppe))>1} do {deleteWaypoint((waypoints _x)select 0)};
-      _gruppe addWaypoint [position _fahne, 5, 0];
-      [_gruppe, 0] setWaypointBehaviour "AWARE";
-      [_gruppe, 0] setWaypointspeed "FULL";
-      [_gruppe, 0] setWaypointType "MOVE";
-      _gruppe addWaypoint [position _fahne,2,1];
-      [_gruppe, 1] setWaypointCompletionRadius 2;
-      [_gruppe, 1] setWaypointBehaviour "COMBAT";
-      [_gruppe, 1] setWaypointspeed "FULL";
-      [_gruppe, 1] setWaypointType "SAD";
-      _erstellte_objekte pushback _unit;
-      if ((!isnil "s_debugmarker") && {s_debugmarker}) then {[_unit] call fnc_s_debugmarker_erstellen};
+      _erstellte_obj_fnc = [
+              s_feind_seite,s_feind_klasse,
+              _loc_lvl,
+              (agltoasl (selectrandom _liste_spawnpos_inf)),
+              position _fahne,
+              "COMBAT"
+      ] call fnc_s_create_unit_startpos_move_zielpos;
+      _erstellte_objekte append _erstellte_obj_fnc;
     };//(_spawn_typ == "inf")
     if (_spawn_typ in ["rad","kette"]) then {
-      _vec_klasse = selectrandom (s_feind_fzg_land_bewaffnet select _loc_lvl);
-      _anz = getnumber(configFile >> "CfgVehicles" >> _vec_klasse >> "transportSoldier");
-      //if (_anz > 0) then {
-        _liste_spawnstrassen_vec call BIS_fnc_arrayShuffle;
-        _strasse = selectrandom _liste_spawnstrassen_vec;
-        _vec = _vec_klasse createVehicle (position _strasse);
-        _vec setdir (getdir _strasse);
-        _gruppe = creategroup [east,true];
-        {_unit = _gruppe createUnit [s_feind_klasse, (position _vec), [], 0, "NONE"];_unit moveInTurret [_vec, _x]} foreach (allTurrets _vec);
-        if ((count(fullCrew [_vec, "gunner", true])) > 0) then {_unit = _gruppe createUnit [s_feind_klasse, (position _vec), [], 0, "NONE"];_unit moveingunner _vec};
-        if ((count(fullCrew [_vec, "commander", true])) > 0) then {_unit = _gruppe createUnit [s_feind_klasse, (position _vec), [], 0, "NONE"];_unit moveingunner _vec};
-        _unit = _gruppe createUnit [s_feind_klasse, (position _vec), [], 0, "NONE"];
-        _unit moveindriver _vec;
-        if ((!isnil "s_debugmarker") && {s_debugmarker}) then {{[_x] call fnc_s_debugmarker_erstellen} foreach (units _gruppe)};
-        {[_x,_loc_lvl] call fnc_s_feindkonfig} foreach (units _gruppe);
-        _gruppe addWaypoint [position _strasse, 5, 0];
-        [_gruppe, 0] setWaypointBehaviour "COMBAT";
-        [_gruppe, 0] setWaypointspeed "LIMITED";
-        [_gruppe, 0] setWaypointType "MOVE";
-        [_gruppe, 0] setWaypointCompletionRadius 30;
-        _gruppe addWaypoint [(position _fahne) findEmptyPosition [10,100,(typeof _vec)],10,1];
-        [_gruppe, 1] setWaypointCompletionRadius 2;
-        [_gruppe, 1] setWaypointBehaviour "COMBAT";
-        [_gruppe, 1] setWaypointspeed "LIMITED";
-        [_gruppe, 1] setWaypointType "TR UNLOAD";
-        [_gruppe, 1] setWaypointCompletionRadius 50;
-        _erstellte_objekte append (units _gruppe);
-        _erstellte_objekte pushback _vec;
-        // # cargo
-        if ((count(fullCrew [_vec, "cargo", true])) > 0) then {
-          _gruppe = creategroup [east,true];
-          {_unit = _gruppe createUnit [s_feind_klasse, (position _vec), [], 0, "NONE"];_unit moveincargo _vec} foreach (fullCrew [_vec, "cargo", true]);
-          _gruppe addWaypoint [position _fahne, 5, 0];
-          [_gruppe, 0] setWaypointBehaviour "AWARE";
-          [_gruppe, 0] setWaypointspeed "FULL";
-          [_gruppe, 0] setWaypointType "MOVE";
-          _gruppe addWaypoint [position _fahne,2,1];
-          [_gruppe, 1] setWaypointCompletionRadius 2;
-          [_gruppe, 1] setWaypointBehaviour "COMBAT";
-          [_gruppe, 1] setWaypointspeed "FULL";
-          [_gruppe, 1] setWaypointType "SAD";
-          if ((!isnil "s_debugmarker") && {s_debugmarker}) then {{[_x] call fnc_s_debugmarker_erstellen} foreach (units _gruppe)};
-          {[_x,_loc_lvl] call fnc_s_feindkonfig} foreach (units _gruppe);
-          _erstellte_objekte append (units _gruppe);
-        };//((count(fullCrew [_vec, "cargo", true])) > 0)
-      //};//(_anz[cargo!)] > 0)
+      _erstellte_obj_fnc = [
+              s_feind_seite,
+              selectrandom (s_fzg_land_bewaffnet_east select _loc_lvl),
+              s_feind_klasse,
+              _loc_lvl,
+              position(selectrandom _liste_spawnstrassen_vec),
+              position _fahne,
+              "COMBAT"
+      ] call fnc_s_create_vec_trans_startpos_move_zielpos;
+      _erstellte_objekte append _erstellte_obj_fnc;
     };//(_spawn_typ == "rad")
     if (_spawn_typ in ["flug","heli"]) then {
-      //call compile format["_vec = [_fahne,s_vert_vecklassen_%1] call fnc_s_sys_fluggeraet_sad;",_spawn_typ];
-      //_erstellte_objekte pushback _vec;
-      //_erstellte_objekte append (units(group(driver _vec)));
-      //if ((!isnil "s_debugmarker") && {s_debugmarker}) then {
-      //  {[_x] call fnc_s_debugmarker_erstellen} foreach (units(group(driver _vec)));
-      //  [_vec] call fnc_s_debugmarker_erstellen;
-      //};
-      //if (!isnil "fnc_s_sys_unit_konfig_skills") then {
-      //  {[_x,s_admin_ki_level_min/10,s_admin_ki_level_max/10] call fnc_s_sys_unit_konfig_skills} foreach (units(group(driver _vec)));
-      //};
+      //..........
     };
     _spawn_typ = "";
   };//((_spawn_typ != "") && {(count _erstellte_objekte) < s_vert_anz_max_objekte})
-
 
 
   // # flaggenstatus
@@ -314,7 +266,6 @@ while {s_mission_params select 0} do {
       "m_fahne_icon" setMarkerColor "ColorBlue";
     };//((typeof _zielobjekt) == s_vert_zielobjekt_klasse_spieler)
   };//((count _units_in_flaggenarea) > 0)
-
 
 
   // # punkte aktualisieren
