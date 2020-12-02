@@ -28,18 +28,11 @@ private _loc_farbe = _params select 7;
 
 
 
-reverse s_spieler_oder_ki;
-while {s_db_aktiv} do {uisleep 0.3};
-s_db_aktiv = true;
-private _db = ["new", format["%1_s_spieler_oder_ki_%2",s_pref_spiel,(toLowerANSI worldname)]] call OO_INIDBI;
-["write",["s_spieler_oder_ki","s_spieler_oder_ki",s_spieler_oder_ki]] call _db;
-s_db_aktiv = false;
-
-
 private _missionstyp = "nicht erkannt";
 private _missionsname = format["Test(nicht erkannt): %1 Level ",_loc_name,_loc_lvl];
 private _garagennutzung = true;
 private _waffenkammernutzung = true;
+
 
 switch (_loc_farbe) do {
   case "ColorRed": {
