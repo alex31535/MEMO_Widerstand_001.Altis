@@ -18,12 +18,12 @@
 #define _DEF_dist_toleranz_vec 100
 #define _DEF_min_anz_geb_positionen_inf_spawn 3
 
-
+// # sammel-var
 private _erstellte_objekte = [];
 private _erstellte_marker = [];
 
-private _infanterie_fallschirm = false;
 
+// # loc-parameter
 private _loc_params = s_loc_params select (s_mission_params select 3);
 private _loc_name = _loc_params select 0;
 private _loc_pos = _loc_params select 1;
@@ -34,6 +34,7 @@ private _loc_pkt = _loc_params select 5;
 private _loc_lvl = _loc_params select 6;
 private _loc_farbe = _loc_params select 7;
 
+// # einstellungs-parameter
 private _gen_params = [
 /*0 ["Spawnabstaende",[["Schnell",2],["Mittel",4],["Langsam",8]],*/ (9 - _loc_lvl),
 /*1 ["Haeuserdichte",[["Gering",4],["Mittel",10],["Hoch",18]],*/ 1,
@@ -49,8 +50,8 @@ private _gen_params = [
 /*11 ["Wahrscheinlichkeit Helikopter",[["Sehr gering",5],["Gering",25],["Mittel",50],["Hoch",75],["Sehr Hoch",99]],*/ ([5,10,15,20,25,30,35,40] select _loc_lvl),
 /*12 ["Entfernung Infanterie",[["Sehr weit",650],["Weit",550],["Mittel",450],["Nah",350],["Sehr nah",250]],*/ (550 - (45 * _loc_lvl))
 ];
-
 private _punkte_flagge = (_gen_params select 4)/100;
+
 
 private _pos_dir_fahne = [];
 
@@ -68,11 +69,11 @@ if ((count _strassen_area1) == 0) then {
 
 
 // # flagge erstellen und area markieren
-private _fahne = "Flag_Green_F" createVehicle (_pos_dir_fahne select 0);
+private _fahne = "Flag_White_F" createVehicle (_pos_dir_fahne select 0);
 _erstellte_objekte pushback _fahne;
 private _marker = createMarker ["m_fahne_icon", (_pos_dir_fahne select 0)];
 _marker setMarkerType "mil_dot";
-_marker setMarkerColor "ColorGreen";
+_marker setMarkerColor "ColorWhite";
 _erstellte_marker pushback _marker;
 _marker = createMarker ["m_fahne_area", (_pos_dir_fahne select 0)];
 _marker setMarkerShape "ELLIPSE";
@@ -183,22 +184,14 @@ private call BIS_fnc_arrayShuffle;
 private _missionsende_resultat = "";
 private _zeitstempel_spawn = time + (_gen_params select 0);
 private _spawn_typ = "";
-private _unit = objnull;
-private _gruppe = grpnull;
-private _vec_klasse = "";
-private _anz = 0;
 private _units_in_flaggenarea = [];
-private _anz_units_in_flaggenarea_spieler = 0;
-private _anz_units_in_flaggenarea_feind = 0;
-private _vec = objnull;
-
-private _flaggenzone = [(position _fahne), _gen_params select 3, _gen_params select 3, 0, false];
-
 private _erstellte_obj_fnc = [];
-
 private _side_switch = [[east,s_feind_klasse_east,"s_fzg_land_bewaffnet_east"],[resistance,s_feind_klasse_resistance,"s_fzg_land_bewaffnet_resistance"]];
 private _auswahl_fzg = [];
-
+private _anz_units_seite = 0;
+private _dominanz = [];
+private _dominanz_punkte = 0;
+private _punkte_flagge = 0;
 while {s_mission_params select 0} do {
 
   // # reset auf variablen
@@ -228,7 +221,7 @@ while {s_mission_params select 0} do {
               (_side_switch select 0) select 1,
               _loc_lvl,
               (agltoasl (selectrandom _liste_spawnpos_inf)),
-              position _fahne,
+              getmarkerpos "m_fahne_area",
               "COMBAT"
       ] call fnc_s_create_unit_startpos_move_zielpos;
       _erstellte_objekte append _erstellte_obj_fnc;
@@ -241,7 +234,7 @@ while {s_mission_params select 0} do {
               (_side_switch select 0) select 1,
               _loc_lvl,
               position(selectrandom _liste_spawnstrassen_vec),
-              position _fahne,
+              getmarkerpos "m_fahne_area",
               "COMBAT"
       ] call fnc_s_create_vec_trans_startpos_move_zielpos;
       _erstellte_objekte append _erstellte_obj_fnc;
@@ -266,10 +259,18 @@ while {s_mission_params select 0} do {
   // + dominanzen und punkte
   _dominanz = _anz_units_seite select 0;
   _dominanz_punkte = (_dominanz select 0) - ((_anz_units_seite select 1) select 0) - ((_anz_units_seite select 2) select 0);
-  systemchat format["_dominanz: %1 pkt: %2",_dominanz,_dominanz_punkte];
-  //if (_dominanz_punkte <0) then {_dominanz_punkte = 0};
-  _punkte_flagge = _punkte_flagge + _dominanz_punkte;
-  if (_punkte_flagge <0) then {_punkte_flagge = 0};
+
+        //if ((_dominanz select 1) == "ColorRed") then {_dominanz_punkte = 80};
+        //systemchat format["_dominanz: %1 pkt: %2",_dominanz,_dominanz_punkte];
+  if ((getmarkercolor "m_fahne_icon") == (_dominanz select 1)) then {
+    _punkte_flagge = _punkte_flagge + _dominanz_punkte;
+  } else {
+    _punkte_flagge = _punkte_flagge - _dominanz_punkte;
+  };
+  if (_punkte_flagge <0) then {
+    "m_fahne_icon" setmarkercolor (_dominanz select 1);
+    _punkte_flagge = 0;
+  };
   // # flagge nach dominanz veraendern
   if ((typeof _fahne) != (_dominanz select 2)) then {
     _pos = position _fahne; deletevehicle _fahne; _fahne = nil;
@@ -279,29 +280,6 @@ while {s_mission_params select 0} do {
   "m_fahne_icon" setmarkertext (format["Punkte: %1%2",100/((_gen_params select 4)/(_punkte_flagge +0.000001)),"%"]);
 
 
-  /*
-  _anz_units_in_flaggenarea_spieler = count((_units_in_flaggenarea select {isplayer _x}) select {(lifeState _x) == "HEALTHY"});
-  _anz_units_in_flaggenarea_feind = count(_units_in_flaggenarea select {!isplayer _x});
-  _units_in_flaggenarea_verhaeltnis = _anz_units_in_flaggenarea_spieler - _anz_units_in_flaggenarea_feind;
-  if (_units_in_flaggenarea_verhaeltnis != 0) then {
-    if (((typeof _fahne) == "Flag_Blue_F") && {_units_in_flaggenarea_verhaeltnis < 0}) then {
-      _pos = position _fahne; deletevehicle _fahne; _fahne = nil;
-      _fahne = "Flag_Red_F" createVehicle _pos;
-      _erstellte_objekte pushback _fahne;
-      "m_fahne_icon" setMarkerColor "ColorRed";
-    };//((typeof _zielobjekt) == s_vert_zielobjekt_klasse_spieler)
-    if (((typeof _fahne) == "Flag_Red_F") && {_units_in_flaggenarea_verhaeltnis > 0}) then {
-      _pos = position _fahne; deletevehicle _fahne; _fahne = nil;
-      _fahne = "Flag_Blue_F" createVehicle _pos;
-      _erstellte_objekte pushback _fahne;
-      "m_fahne_icon" setMarkerColor "ColorBlue";
-    };//((typeof _zielobjekt) == s_vert_zielobjekt_klasse_spieler)
-  };//((count _units_in_flaggenarea) > 0)
-  */
-
-  // # punkte aktualisieren
-  //_punkte_flagge = _punkte_flagge + _units_in_flaggenarea_verhaeltnis;
-  //"m_fahne_icon" setmarkertext (format["Punkte: %1%2",100/((_gen_params select 4)/(_punkte_flagge +0.000001)),"%"]);
 
   // # sieg-punktezahl erreicht
   if (_punkte_flagge > (_gen_params select 4)) then {
@@ -339,29 +317,7 @@ switch (_missionsende_resultat) do {
     } foreach playableunits;
     _loc_params set [7,"ColorGreen"];
   };
-  //case "punkte 0": {
-  //  {
-  //    [["<t color='#d93316' size='6'>MISSION FEHLGESCHLAGEN - Die Region ist verloren!", "PLAIN", -1, true, true]] remoteExec ["cutText",_x];
-  //  } foreach playableunits;
-  //  _loc_params set [7,"ColorRed"];
-  //};
 };
 
-s_loc_params set [s_mission_params select 3,_loc_params];
-(format["m_loc_icon_%1",s_mission_params select 3]) setmarkercolor (_loc_params select 7);
-
-while {s_db_aktiv} do {uisleep 0.3}; s_db_aktiv = true;
-private _db = ["new", format["%1_s_loc_params_%2",s_pref_spiel,(toLowerANSI worldname)]] call OO_INIDBI;
-{["write",[_x select 0,_x select 0,_x]] call _db;} foreach s_loc_params;
-s_db_aktiv = false;
-
-reverse s_spieler_oder_ki;
-while {s_db_aktiv} do {uisleep 0.3};
-s_db_aktiv = true;
-private _db = ["new", format["%1_s_spieler_oder_ki_%2",s_pref_spiel,(toLowerANSI worldname)]] call OO_INIDBI;
-["write",["s_spieler_oder_ki","s_spieler_oder_ki",s_spieler_oder_ki]] call _db;
-s_db_aktiv = false;
-
-// bereinigungen -> objektmuelleimer
-{deletemarker _x} foreach _erstellte_marker;
-{s_objektmuelleimer pushback [_x,750]; _x allowfleeing 1} foreach _erstellte_objekte;
+// # gruppenmission schliessen
+[_loc_params,_erstellte_objekte,_erstellte_marker] call fnc_s_gruppenmission_missionsende;
