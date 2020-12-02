@@ -50,7 +50,7 @@ private _gen_params = [
 /*12 ["Entfernung Infanterie",[["Sehr weit",650],["Weit",550],["Mittel",450],["Nah",350],["Sehr nah",250]],*/ (550 - (45 * _loc_lvl))
 ];
 
-private _punkte_spieler = (_gen_params select 4)/100;
+private _punkte_flagge = (_gen_params select 4)/100;
 
 private _pos_dir_fahne = [];
 
@@ -196,6 +196,9 @@ private _flaggenzone = [(position _fahne), _gen_params select 3, _gen_params sel
 
 private _erstellte_obj_fnc = [];
 
+private _side_switch = [[east,s_feind_klasse_east,"s_fzg_land_bewaffnet_east"],[resistance,s_feind_klasse_resistance,"s_fzg_land_bewaffnet_resistance"]];
+private _auswahl_fzg = [];
+
 while {s_mission_params select 0} do {
 
   // # reset auf variablen
@@ -212,6 +215,7 @@ while {s_mission_params select 0} do {
     _vert_random_spawn call BIS_fnc_arrayShuffle;
     _spawn_typ = selectrandom _vert_random_spawn;
     _zeitstempel_spawn = time + (_gen_params select 0);
+    reverse _side_switch;
   };
 
 
@@ -220,7 +224,8 @@ while {s_mission_params select 0} do {
     if (_spawn_typ == "inf") then {
       _liste_spawnpos_inf call BIS_fnc_arrayShuffle;
       _erstellte_obj_fnc = [
-              s_feind_seite,s_feind_klasse,
+              (_side_switch select 0) select 0,
+              (_side_switch select 0) select 1,
               _loc_lvl,
               (agltoasl (selectrandom _liste_spawnpos_inf)),
               position _fahne,
@@ -229,10 +234,11 @@ while {s_mission_params select 0} do {
       _erstellte_objekte append _erstellte_obj_fnc;
     };//(_spawn_typ == "inf")
     if (_spawn_typ in ["rad","kette"]) then {
+      call compile format["_auswahl_fzg = %1;",(_side_switch select 0) select 2];
       _erstellte_obj_fnc = [
-              s_feind_seite,
-              selectrandom (s_fzg_land_bewaffnet_east select _loc_lvl),
-              s_feind_klasse,
+              (_side_switch select 0) select 0,
+              selectrandom (_auswahl_fzg select _loc_lvl),
+              (_side_switch select 0) select 1,
               _loc_lvl,
               position(selectrandom _liste_spawnstrassen_vec),
               position _fahne,
@@ -248,7 +254,32 @@ while {s_mission_params select 0} do {
 
 
   // # flaggenstatus
-  _units_in_flaggenarea = (allunits select {alive _x}) inareaarray "m_fahne_area";
+  //  + alle lebenden einheiten
+  _units_in_flaggenarea = ((allunits select {alive _x}) select {(lifeState _x) == "HEALTHY"}) inareaarray "m_fahne_area";
+  //  + anz der seiten feststellen und nach dominaz sortieren
+  _anz_units_seite = [
+      [count (_units_in_flaggenarea select {(side _x) == EAST}),"ColorRed","Flag_Red_F"],
+      [count (_units_in_flaggenarea select {(side _x) == WEST}),"ColorBlue","Flag_Blue_F"],
+      [count (_units_in_flaggenarea select {(side _x) == resistance}),"ColorGreen","Flag_Green_F"]
+  ];
+  _anz_units_seite sort false;
+  // + dominanzen und punkte
+  _dominanz = _anz_units_seite select 0;
+  _dominanz_punkte = (_dominanz select 0) - ((_anz_units_seite select 1) select 0) - ((_anz_units_seite select 2) select 0);
+  systemchat format["_dominanz: %1 pkt: %2",_dominanz,_dominanz_punkte];
+  //if (_dominanz_punkte <0) then {_dominanz_punkte = 0};
+  _punkte_flagge = _punkte_flagge + _dominanz_punkte;
+  if (_punkte_flagge <0) then {_punkte_flagge = 0};
+  // # flagge nach dominanz veraendern
+  if ((typeof _fahne) != (_dominanz select 2)) then {
+    _pos = position _fahne; deletevehicle _fahne; _fahne = nil;
+    _fahne = (_dominanz select 2) createVehicle _pos;
+  };
+  // # marker aktualisieren
+  "m_fahne_icon" setmarkertext (format["Punkte: %1%2",100/((_gen_params select 4)/(_punkte_flagge +0.000001)),"%"]);
+
+
+  /*
   _anz_units_in_flaggenarea_spieler = count((_units_in_flaggenarea select {isplayer _x}) select {(lifeState _x) == "HEALTHY"});
   _anz_units_in_flaggenarea_feind = count(_units_in_flaggenarea select {!isplayer _x});
   _units_in_flaggenarea_verhaeltnis = _anz_units_in_flaggenarea_spieler - _anz_units_in_flaggenarea_feind;
@@ -266,15 +297,21 @@ while {s_mission_params select 0} do {
       "m_fahne_icon" setMarkerColor "ColorBlue";
     };//((typeof _zielobjekt) == s_vert_zielobjekt_klasse_spieler)
   };//((count _units_in_flaggenarea) > 0)
-
+  */
 
   // # punkte aktualisieren
-  _punkte_spieler = _punkte_spieler + _units_in_flaggenarea_verhaeltnis;
-  "m_fahne_icon" setmarkertext (format["Punkte: %1%2",100/((_gen_params select 4)/(_punkte_spieler +0.000001)),"%"]);
+  //_punkte_flagge = _punkte_flagge + _units_in_flaggenarea_verhaeltnis;
+  //"m_fahne_icon" setmarkertext (format["Punkte: %1%2",100/((_gen_params select 4)/(_punkte_flagge +0.000001)),"%"]);
+
   // # sieg-punktezahl erreicht
-  if (_punkte_spieler > (_gen_params select 4)) then {s_mission_params set [0,false]; _missionsende_resultat = "punkte erreicht"};
+  if (_punkte_flagge > (_gen_params select 4)) then {
+    s_mission_params set [0,false];
+    if ((_dominanz select 1) == "ColorRed") then {_missionsende_resultat = "rot hat gewonnen"};
+    if ((_dominanz select 1) == "ColorBlue") then {_missionsende_resultat = "blau hat gewonnen"};
+    if ((_dominanz select 1) == "ColorGreen") then {_missionsende_resultat = "gruen hat gewonnen"};
+  };
   // # punkte auf null
-  if (_punkte_spieler < 0) then {s_mission_params set [0,false]; _missionsende_resultat = "punkte 0"};
+  if (_punkte_flagge < 0) then {s_mission_params set [0,false]; _missionsende_resultat = "punkte 0"};
   // # notaus aktiviert?
   if (s_mission_params select 4) then {s_mission_params set [0,false]};
   uisleep 0.3;
@@ -284,18 +321,30 @@ while {s_mission_params select 0} do {
 
 // # auswertung
 switch (_missionsende_resultat) do {
-  case "punkte erreicht": {
+  case "blau hat gewonnen": {
     {
       [["<t color='#2cb02a' size='4'>Geschafft - Sie haben die Region stabilisiert!", "PLAIN", -1, true, true]] remoteExec ["cutText",_x];
     } foreach playableunits;
     _loc_params set [7,"ColorBlue"];
   };
-  case "punkte 0": {
+  case "rot hat gewonnen": {
     {
-      [["<t color='#d93316' size='6'>MISSION FEHLGESCHLAGEN - Die Region ist verloren!", "PLAIN", -1, true, true]] remoteExec ["cutText",_x];
+      [["<t color='#d93316' size='4'>MISSION FEHLGESCHLAGEN - Der Feind hat die Region zurueckerobert!", "PLAIN", -1, true, true]] remoteExec ["cutText",_x];
     } foreach playableunits;
     _loc_params set [7,"ColorRed"];
   };
+  case "gruen hat gewonnen": {
+    {
+      [["<t color='#d93316' size='4'>MISSION FEHLGESCHLAGEN - Die Region konnte nicht stabilisiert werden!", "PLAIN", -1, true, true]] remoteExec ["cutText",_x];
+    } foreach playableunits;
+    _loc_params set [7,"ColorGreen"];
+  };
+  //case "punkte 0": {
+  //  {
+  //    [["<t color='#d93316' size='6'>MISSION FEHLGESCHLAGEN - Die Region ist verloren!", "PLAIN", -1, true, true]] remoteExec ["cutText",_x];
+  //  } foreach playableunits;
+  //  _loc_params set [7,"ColorRed"];
+  //};
 };
 
 s_loc_params set [s_mission_params select 3,_loc_params];
