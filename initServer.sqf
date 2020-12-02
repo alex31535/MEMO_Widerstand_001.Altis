@@ -96,9 +96,10 @@ if (_db_existiert) then {
   ["write",["s_spieler_oder_ki","s_spieler_oder_ki",s_spieler_oder_ki]] call _db;
 };
 // # globale feindseite feststellen
-s_feind_seite = east;
-// universelle feind-klasse
-s_feind_klasse = "O_Soldier_F";
+s_feind_seite = east;// kann auch als array dargestellt werden (missionsabhaengig!)
+// universelle feind-klassen
+s_feind_klasse_east = "O_Soldier_F";
+s_feind_klasse_resistance = "I_Soldier_F";
 // universelle zivil-klasse
 s_zivil_klasse = "C_man_p_fugitive_F";
 
@@ -110,6 +111,8 @@ s_fzg_land_bewaffnet_east = [];
 #include "s_fzg_land_bewaffnet_east.hpp"
 s_fzg_land_bewaffnet_west = [];
 #include "s_fzg_land_bewaffnet_west.hpp"
+s_fzg_land_bewaffnet_resistance = [];
+#include "s_fzg_land_bewaffnet_resistance.hpp"
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------<Parameter auf Editor-Objekte
 systemchat "Editor-Objekte: Parameter...";
