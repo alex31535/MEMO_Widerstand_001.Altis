@@ -13,6 +13,7 @@
   of the Author and guarantees no Functionalities with other Scripts and Functions that were not developed by Athor expilizit for it.
 */
 params ["_seite","_unitklasse","_lvl","_pos_start_asl","_zielpos","_verhalten"];
+if ((count(playableunits inareaarray [_pos_start_asl,100,100,0,false])) > 0) exitwith {[]};
 private _unit = (creategroup [_seite,true]) createUnit [_unitklasse, [0,0,0], [], 0, "NONE"];
 _unit setposasl _pos_start_asl;
 _unit setdir (random 360);

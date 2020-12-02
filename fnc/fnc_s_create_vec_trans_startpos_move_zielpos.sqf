@@ -13,6 +13,8 @@
   of the Author and guarantees no Functionalities with other Scripts and Functions that were not developed by Athor expilizit for it.
 */
 params ["_seite","_vec_klasse","_unitklasse","_lvl","_pos_start","_zielpos","_verhalten"];
+if ((count(playableunits inareaarray [_pos_start,100,100,0,false])) > 0) exitwith {[]};
+
 private _erstellte_objekte = [];
 
 private _vec = _vec_klasse createVehicle _pos_start;
