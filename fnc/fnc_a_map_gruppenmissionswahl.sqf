@@ -68,15 +68,21 @@ while {visibleMap} do {
         "m_lokal_missionswahl" setMarkertextlocal "Level zu hoch";
         _params = [];
       } else {
-        if (_markerfarbe_loc == (format["Color%1",str(side player)])) then {
+        if (_markerfarbe_loc == "ColorBlue") then {
           "m_lokal_missionswahl" setMarkerTypelocal "mil_flag";
           "m_lokal_missionswahl" setMarkercolorlocal (format["Color%1",str(side player)]);
           "m_lokal_missionswahl" setMarkertextlocal "Erobert";
           _params = [];
         } else {
-          "m_lokal_missionswahl" setMarkerTypelocal "mil_join";
-          "m_lokal_missionswahl" setMarkercolorlocal (format["Color%1",str(side player)]);
-          "m_lokal_missionswahl" setMarkertextlocal "Angriff";
+          if (_markerfarbe_loc == "ColorRed") then {
+            "m_lokal_missionswahl" setMarkerTypelocal "mil_join";
+            "m_lokal_missionswahl" setMarkercolorlocal "ColorRed";
+            "m_lokal_missionswahl" setMarkertextlocal "Angriff";
+          } else {
+            "m_lokal_missionswahl" setMarkerTypelocal "mil_join";
+            "m_lokal_missionswahl" setMarkercolorlocal "ColorGreen";
+            "m_lokal_missionswahl" setMarkertextlocal "Stabilisieren";
+          };
         };
       };
     } else {
