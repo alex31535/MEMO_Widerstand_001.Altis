@@ -48,6 +48,12 @@ player setUnitTrait ["UAVHacker",false];
 	}] call BIS_fnc_addScriptedEventHandler;
 
 
+
+// # briefing----------------------------------------------------------------------------------------------------------------------------------------------------------briefing
+[] execvm "scripte\briefing_diary.sqf";
+
+
+
 // # witti: enticklungsumgebung----------------------------------------------------------------------------------------------------------------------------witti: enticklungsumgebung
 [] execvm "witti\initPlayerLocal.sqf";
 
