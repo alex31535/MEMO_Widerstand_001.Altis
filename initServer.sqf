@@ -47,6 +47,8 @@ fnc_s_pos_im_wald = compile preprocessfilelinenumbers "fnc\fnc_s_pos_im_wald.sqf
 
 fnc_s_create_unit_startpos_move_zielpos = compile preprocessfilelinenumbers "fnc\fnc_s_create_unit_startpos_move_zielpos.sqf";
 fnc_s_create_vec_trans_startpos_move_zielpos = compile preprocessfilelinenumbers "fnc\fnc_s_create_vec_trans_startpos_move_zielpos.sqf";
+
+fnc_s_gruppenmission_missionsende = compile preprocessfilelinenumbers "fnc\fnc_s_gruppenmission_missionsende.sqf";
 //----------------------------------------------------------------------------------------------------------------------------------------------------------<system-globals
 systemchat "Setze statische Globals...";
 // # globale debug-markierungen ?
@@ -128,7 +130,7 @@ eo_basis_ausruestung allowdammage false;
 {_x allowdammage false} foreach ((position eo_flagge_basis) nearObjects ["House",150]);
 eo_flagge_basis allowdammage false;
 // # m_area_basis: markiert den bereich der basis
-"m_area_basis" setmarkeralpha 1;
+"m_area_basis" setmarkeralpha 0.5;
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------<mod-listen erstellen
 systemchat "Editor-Objekte: Mod-Listen...";
