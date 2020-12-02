@@ -23,6 +23,18 @@ private _loadout = [
   "",[],
   ["ItemMap","","TFAR_anprc152","ItemCompass","ItemWatch",""]
 ];
+if (side _unit == resistance) then {
+  _loadout = [
+    [],[],[],
+    ["CUP_U_B_BDUv2_roll_gloves_dirty_DCU_US",[["FirstAidKit",1],["HandGrenade",1,1]]],
+    [],[],
+    "CUP_H_FR_BandanaGreen",
+    "",[],
+    ["ItemMap","","TFAR_anprc152","ItemCompass","ItemWatch",""]
+  ];
+};
+
+
 private _feindausstattung = s_feindausstattung select _lvl; _feindausstattung call BIS_fnc_arrayShuffle;
 private _waffen_params = selectrandom _feindausstattung;
 private _waffenklasse = _waffen_params select 1;
