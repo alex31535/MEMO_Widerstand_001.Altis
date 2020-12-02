@@ -48,14 +48,12 @@ private _loc_area2 = [_loc_pos,_loc_groesse+(_loc_groesse/2),_loc_groesse+(_loc_
 
 
 // # ring-strassen feststellen
-//systemchat "generieren #1"; uisleep 3;
 private _strassen_gesperrt_ring_0 = [_loc_area0,[]] call fnc_s_cityring_strassenliste;
 private _strassen_gesperrt_ring_1 = [_loc_area1,[]] call fnc_s_cityring_strassenliste;
 private _strassen_gesperrt_ring_2 = [_loc_area2,[]] call fnc_s_cityring_strassenliste;
 
 
 // # ring-strassen besetzen um eine anz fuer verbleibende objekte zu bekommen
-//systemchat "generieren #2"; uisleep 3;
 private _objektliste_ringbesetzung = [_strassen_gesperrt_ring_0, s_fzg_land_bewaffnet_east select _loc_lvl] call fnc_s_cityring_strassen_besetzen;
 private _erstellte_objekte = _objektliste_ringbesetzung;
 _objektliste_ringbesetzung = [_strassen_gesperrt_ring_1, s_fzg_land_bewaffnet_east select _loc_lvl] call fnc_s_cityring_strassen_besetzen;
@@ -65,7 +63,6 @@ _erstellte_objekte append _objektliste_ringbesetzung;
 
 
 // # benoetigte units berechnen
-//systemchat "generieren #3"; uisleep 3;
 private _anz_verbleibend = _DEF_obj_max - (count _erstellte_objekte);
 private _anz_crew_plus_vec = count _erstellte_objekte;
 private _anz_zivilisten = floor((_anz_verbleibend /100) * _DEF_prozent_zivilisten);
@@ -77,12 +74,10 @@ private _anz_zivilisten_strasse = _anz_zivilisten - _anz_zivilisten_haus;
 
 
 // # gebaeude im ring-bereich 1 feststellen
-//systemchat "generieren #4"; uisleep 3;
 private _alle_haeuser = [_loc_area1 select 0, _loc_area1 select 1,_DEF_min_gebaeudepositionen] call fnc_s_gebaeudeauswahl;
 
 
 // # ggf berechnete units anpassen
-//systemchat "generieren #5"; uisleep 3;
 while {(_anz_feinde_haus + _anz_zivilisten_haus) > ((count _alle_haeuser) - 2)} do {
   if (_anz_feinde_haus > 0) then {_anz_feinde_haus = _anz_feinde_haus -1};
   if (_anz_zivilisten_haus > 0) then {_anz_zivilisten_haus = _anz_zivilisten_haus -1};
@@ -94,7 +89,6 @@ private _strassen_area0 = (_loc_area0 select 0) nearRoads (_loc_area0 select 1);
 
 
 // # strassen-patrouillen fuer area0 setzen (feind)
-//systemchat "generieren #6"; uisleep 3;
 private _gruppenstaerke = 0;
 private _unit = objnull;
 private _gruppe = grpnull;
@@ -104,7 +98,7 @@ while {_anz_feinde_strasse > 0} do {
   if (_gruppenstaerke > 0) then {
     _gruppe = creategroup [s_feind_seite,true];
     for "_i" from 0 to _gruppenstaerke do {
-      _unit = _gruppe createUnit [s_feind_klasse, [0,0,0], [], 0, "NONE"];
+      _unit = _gruppe createUnit [s_feind_klasse_east, [0,0,0], [], 0, "NONE"];
       _erstellte_objekte pushback _unit;
       if ((!isnil "s_debugmarker") && {s_debugmarker}) then {[_unit] call fnc_s_debugmarker_erstellen};
     };
@@ -115,7 +109,6 @@ while {_anz_feinde_strasse > 0} do {
 
 
 // # strassen-patrouillen fuer area0 setzen (zivil)
-//systemchat "generieren #7"; uisleep 3;
 private _zivilisten = [];
 while {_anz_zivilisten_strasse > 0} do {
   _unit = (creategroup [civilian,true]) createUnit [s_zivil_klasse, [0,0,0], [], 0, "NONE"];
@@ -128,7 +121,6 @@ while {_anz_zivilisten_strasse > 0} do {
 
 
 // # feinde in haeusern erstellen
-//systemchat "generieren #8"; uisleep 3;
 private _haus = objnull;
 private _positionen_im_haus = [];
 while {_anz_feinde_haus > 0} do {
@@ -136,7 +128,7 @@ while {_anz_feinde_haus > 0} do {
   _alle_haeuser deleteat (_alle_haeuser find _haus);
   _positionen_im_haus = [_haus] call fnc_s_positionen_innerhalb_haus;
   if ((count _positionen_im_haus) > 0) then {
-    _unit = (creategroup [s_feind_seite,true]) createUnit [s_feind_klasse, [0,0,0], [], 0, "NONE"];
+    _unit = (creategroup [s_feind_seite,true]) createUnit [s_feind_klasse_east, [0,0,0], [], 0, "NONE"];
     _unit setposasl (agltoasl(selectrandom _positionen_im_haus));
     _unit setdir (random 360);
     _erstellte_objekte pushback _unit;
@@ -147,7 +139,6 @@ while {_anz_feinde_haus > 0} do {
 
 
 // # zivilisten in haeusern erstellen
-//systemchat "generieren #9"; uisleep 3;
 while {_anz_zivilisten_haus > 0} do {
   _haus = selectrandom _alle_haeuser;
   _alle_haeuser deleteat (_alle_haeuser find _haus);
@@ -183,12 +174,11 @@ while {_anz_zivilisten_haus > 0} do {
 
 
 // # zielperson in einem haus erstellen
-//systemchat "generieren #10"; uisleep 3;
 _haus = selectrandom _alle_haeuser;
 _alle_haeuser deleteat (_alle_haeuser find _haus);
 _positionen_im_haus = [_haus] call fnc_s_positionen_innerhalb_haus;
 if ((count _positionen_im_haus) == 0) then {_positionen_im_haus = _haus buildingpos -1};
-private _zielperson = (creategroup [s_feind_seite,true]) createUnit [s_feind_klasse, [0,0,0], [], 0, "NONE"];
+private _zielperson = (creategroup [s_feind_seite,true]) createUnit [s_feind_klasse_east, [0,0,0], [], 0, "NONE"];
 _zielperson setposasl (agltoasl(selectrandom _positionen_im_haus));
 _zielperson disableAI "MOVE";
 _zielperson setdir (random 360);
@@ -200,7 +190,6 @@ if ((!isnil "s_debugmarker") && {s_debugmarker}) then {[_zielperson] call fnc_s_
 
 
 // # marker erstellen
-//systemchat "generieren #11"; uisleep 3;
 private _marker = createMarker ["m_mission_icon", [(_loc_area0 select 0) select 0,((_loc_area0 select 0) select 1) + (_loc_area0 select 1), 0]];
 _marker setMarkerType "mil_dot";
 _marker setMarkerColor "ColorYellow";
@@ -264,12 +253,7 @@ switch (_missionsende_resultat) do {
       [["<t color='#54d916' size='6'>MISSION ERFOLGREICH - Sie haben die Zielperson eliminiert und damit die Region erfolgreich destabilisiert!", "PLAIN", -1, true, true]] remoteExec ["cutText",_x];
     } foreach playableunits;
     _loc_params set [7,"ColorGreen"];
-    s_loc_params set [s_mission_params select 3,_loc_params];
-    (format["m_loc_icon_%1",s_mission_params select 3]) setmarkercolor (_loc_params select 7);
-    while {s_db_aktiv} do {uisleep 0.3}; s_db_aktiv = true;
-    private _db = ["new", format["%1_s_loc_params_%2",s_pref_spiel,(toLowerANSI worldname)]] call OO_INIDBI;
-    {["write",[_x select 0,_x select 0,_x]] call _db;} foreach s_loc_params;
-    s_db_aktiv = false;
+
   };
   case "zu viele zivile opfer": {
     {
@@ -284,7 +268,5 @@ switch (_missionsende_resultat) do {
   };
 };
 
-
-// bereinigungen -> objektmuelleimer
-{deletemarker _x} foreach _erstellte_marker;
-{s_objektmuelleimer pushback [_x,750]; _x allowfleeing 1} foreach _erstellte_objekte;
+// # gruppenmission schliessen
+[_loc_params,_erstellte_objekte,_erstellte_marker] call fnc_s_gruppenmission_missionsende;
