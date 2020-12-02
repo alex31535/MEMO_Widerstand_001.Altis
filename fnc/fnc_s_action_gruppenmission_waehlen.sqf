@@ -32,6 +32,13 @@ if ((count(playableunits inareaarray "m_area_basis")) < (count playableunits)) e
   [["<t color='#ff0000' size='2'>Zum Aufruf einer neuen Gruppenission muessen alle Spieler im HQ-Bereich sein!", "PLAIN", -1, true, true]] remoteExec ["cutText",_spieler];
 };
 
+// # alle toten einheiten loeschen
+{deleteVehicle _x} forEach allDeadMen;
+
+
+// # fahrzeuge ausserhab basis-area loeschen
+{if (!((position _x) inarea "m_area_basis")) then {deleteVehicle _x}} forEach vehicles;
+
 
 if ((s_spieler_oder_ki select 0) == "ki") exitwith {
   [] remoteexec ["fnc_a_gruppenmission_starten_ki",_spieler];
