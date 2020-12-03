@@ -81,4 +81,4 @@ s_mission_params = _missionsparameter;
 // # bekanntgabe des ziels
 {[[format["<t color='#ffa600' size='6'>Neue Gruppenmission: %1",_missionsname], "PLAIN", -1, true, true]] remoteexec ["cuttext",_x]} foreach playableunits;
 
-[] execvm (format["missionen\%1\s_mission_generieren.sqf",_missionstyp]);
+[-1] execvm (format["missionen\%1\s_mission_generieren.sqf",_missionstyp]);
