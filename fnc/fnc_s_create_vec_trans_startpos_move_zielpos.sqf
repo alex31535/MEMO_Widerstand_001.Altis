@@ -19,6 +19,10 @@ private _erstellte_objekte = [];
 
 private _vec = _vec_klasse createVehicle _pos_start;
 _vec setdir (random 360); // pos_dir_strassenrand !!!!!!!!!!
+clearBackpackCargoGlobal _vec;
+clearItemCargoGlobal _vec;
+clearMagazineCargoGlobal _vec;
+clearWeaponCargoGlobal _vec;
 private _gruppe = creategroup [_seite,true];
 {
   _unit = _gruppe createUnit [_unitklasse, (position _vec), [], 0, "NONE"];
