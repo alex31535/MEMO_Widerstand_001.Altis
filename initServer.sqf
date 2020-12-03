@@ -300,7 +300,12 @@ addMissionEventHandler ["HandleDisconnect", {
   [_spieler] call fnc_s_uid_var_schreiben;
   deletevehicle _spieler;
 }];
-
+addMissionEventHandler ["EntityRespawned", {
+	params ["_unit_neu", "_unit_alt"];
+  //[_unit_neu] joinsilent grpnull;
+  [_unit_neu] call fnc_s_uid_var_neu;
+  [_unit_neu] call fnc_s_uid_var_anwenden;
+}];
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------<objektmuelleimer
 systemchat "Starte Objekmuelleimer...";
 s_objektmuelleimer = [/*[obj,dist]*/];
