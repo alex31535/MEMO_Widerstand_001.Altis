@@ -24,7 +24,7 @@
 #define _DEF_ki_level_min 10
 #define _DEF_ki_level_max 40
 
-
+params ["_level_override"];
 
 private _loc_params = s_loc_params select (s_mission_params select 3);
 private _loc_name = _loc_params select 0;
@@ -33,7 +33,7 @@ private _loc_groesse = _loc_params select 2;
 private _loc_geb_dichte = _loc_params select 3;
 private _loc_dichte_obj = _loc_params select 4;
 private _loc_pkt = _loc_params select 5;
-private _loc_lvl = _loc_params select 6;
+private _loc_lvl = _loc_params select 6; if (_level_override != -1) then {_loc_lvl = _level_override};
 private _loc_farbe = _loc_params select 7;
 
 

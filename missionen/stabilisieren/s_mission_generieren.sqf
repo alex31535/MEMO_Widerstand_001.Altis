@@ -18,12 +18,13 @@
 #define _DEF_dist_toleranz_vec 100
 #define _DEF_min_anz_geb_positionen_inf_spawn 3
 
+params ["_level_override"];
+
 // # sammel-var
 private _erstellte_objekte = [];
 private _erstellte_marker = [];
 
 
-// # loc-parameter
 private _loc_params = s_loc_params select (s_mission_params select 3);
 private _loc_name = _loc_params select 0;
 private _loc_pos = _loc_params select 1;
@@ -31,7 +32,7 @@ private _loc_groesse = _loc_params select 2;
 private _loc_geb_dichte = _loc_params select 3;
 private _loc_dichte_obj = _loc_params select 4;
 private _loc_pkt = _loc_params select 5;
-private _loc_lvl = _loc_params select 6;
+private _loc_lvl = _loc_params select 6; if (_level_override != -1) then {_loc_lvl = _level_override};
 private _loc_farbe = _loc_params select 7;
 
 // # einstellungs-parameter
