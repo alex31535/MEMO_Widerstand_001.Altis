@@ -70,6 +70,7 @@ if ((getplayeruid player) == "76561197996449012") then {
 	player addAction ["DEBUG: Captive An/Aus", "debug\debug_captive.sqf"];
 	player addAction ["DEBUG: Positionssprung", "debug\debug_mappos.sqf"];
 	player addAction ["DEBUG: Loadout AT", "player setunitloadout ""B_soldier_LAT_F"""];
+	player addAction ["DEBUG: Spielzug umschalten", "reverse s_spieler_oder_ki"];
 };
 
 
@@ -82,6 +83,8 @@ while {true} do {
 	_text = _text + format["<br />Spielerschaden: %1",isDamageAllowed player];
 	//------
 	_text = _text + format["<br />Captive: %1",captive player];
+	//------
+	_text = _text + format["<br />Naechster Spielzug: %1",s_spieler_oder_ki select 0];
 	//------
 	_pos_ende = (eyePos player) vectorAdd ((player weaponDirection(currentWeapon player)) vectorMultiply 1.2);
 	if (weaponLowered player) then {_pos_ende = (eyePos player) vectorAdd ((eyeDirection player) vectorMultiply 1.2)};
