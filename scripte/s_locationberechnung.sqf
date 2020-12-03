@@ -205,7 +205,7 @@ for "_i" from 1 to 7 do {_dist_steps pushback (4500 * _i)};
   } foreach _obj_liste;
   if (_lvl > 7) then {_lvl = 7};
   _params pushback _lvl;
-  _params pushback "ColorRed";
+  _params pushback "ColorRed";// debug random:: (selectrandom ["ColorRed","ColorGreen","ColorBlue"]);
   s_loc_params pushback _params;
 } foreach _alle_loc_params_pkt_obj;
 
