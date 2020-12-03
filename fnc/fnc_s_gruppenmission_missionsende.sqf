@@ -15,13 +15,14 @@
 
 params ["_loc_params","_erstellte_objekte","_erstellte_marker"];
 
+// # die globalen loc-params mit den lokalen parametern setzen/aktualisieren (sofern uebergeben)
+if ((count _loc_params) > 0) then {
+  s_loc_params set [s_mission_params select 3,_loc_params];
+  (format["m_loc_icon_%1",s_mission_params select 3]) setmarkercolor (_loc_params select 7);
+  (format["m_loc_area_%1",s_mission_params select 3]) setmarkercolor (_loc_params select 7);
+};
+
 reverse s_spieler_oder_ki;
-
-// # die globalen loc-params mit den lokalen parametern setzen/aktualisieren
-s_loc_params set [s_mission_params select 3,_loc_params];
-(format["m_loc_icon_%1",s_mission_params select 3]) setmarkercolor (_loc_params select 7);
-(format["m_loc_area_%1",s_mission_params select 3]) setmarkercolor (_loc_params select 7);
-
 
 // # globale loc-params speichern
 while {s_db_aktiv} do {uisleep 0.3}; s_db_aktiv = true;
