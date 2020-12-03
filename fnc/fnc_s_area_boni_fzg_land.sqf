@@ -17,6 +17,8 @@
 #define _DEF_fzg_anz_lvl_add 1
 params ["_area","_lvl"];
 private _lvl_auswahl_max = _lvl + _DEF_fzg_anz_lvl_add; if (_lvl_auswahl_max > 7) then {_lvl_auswahl_max = 7};
+
+
 // # alle erstellten objekte am ende an parent uebergeben
 private _erstellte_objekte = [];
 // # global verfuegbare fzg-klassen reduzieren auf klassen die NICHT IN DER GARAGE verfuegbar sind (ausgeparkte fahrzeuge werden nciht beruecksichtigt)
