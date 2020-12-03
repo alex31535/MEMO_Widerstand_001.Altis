@@ -23,6 +23,7 @@ s_feindausstattung = [
 [2,"CUP_hgun_TaurusTracker455",false],
 [2,"CUP_hgun_TaurusTracker455_gold",false],
 [2,"gm_wz78_blk",false],
+/* maschinenpistolen */
 /* sturmgewehre */
 [0,"gm_mpiak74n_brn",false],
 [0,"gm_mpiak74n_prp",false],
@@ -35,13 +36,13 @@ s_feindausstattung = [
 [0,"gm_mpikms72_brn",false],
 [0,"gm_mpikms72_prp",false]
 /* maschinengewehre */
-
+/* sniper */
 /* schrotgewehre */
-
 ],
 [/* lvl 1 */
 /* pistolen */
-
+/* maschinenpistolen */
+[0,"CUP_smg_EVO",true],
 /* sturmgewehre */
 [0,"arifle_AK12_F",false],
 [0,"arifle_AK12_GL_F",false],
@@ -89,7 +90,58 @@ s_feindausstattung = [
 [0,"CUP_arifle_M16A2_GL",false],
 [0,"CUP_arifle_M16A4_Base",false],
 [0,"CUP_arifle_M16A4_GL",false],
-
+/* maschinengewehre */
+[0,"CUP_Weapon_lmg_Pecheneg",true],
+/* sniper */
+/* schrotgewehre */
+[0,"CUP_Weapon_sgun_M1014",true]
+],
+[/* lvl 2 */
+/* pistolen */
+/* maschinenpistolen */
+[0,"gm_mp2a1_blk",true],
+[0,"CUP_smg_MP5SD6",true],
+[0,"CUP_smg_MP5A5",true],
+[0,"gm_pm63_blk",true],
+[0,"CUP_smg_bizon",true],
+[0,"SMG_05_F",true],
+[0,"CUP_smg_SA61",true],
+/* sturmgewehre */
+[0,"arifle_CTAR_ghex_F",true],
+[0,"arifle_CTAR_blk_F",true],
+[0,"arifle_CTAR_hex_F",true],
+[0,"arifle_CTAR_GL_ghex_F",true],
+[0,"arifle_CTAR_GL_blk_F",true],
+[0,"arifle_CTAR_GL_hex_F",true],
+[0,"arifle_CTARS_ghex_F",true],
+[0,"arifle_CTARS_blk_F",true],
+[0,"arifle_CTARS_hex_F",true],
+[0,"CUP_arifle_CZ805_A1",true],
+[0,"CUP_arifle_CZ805_A2",true],
+[0,"CUP_arifle_CZ805_B",true],
+[0,"CUP_arifle_CZ805_B_GL",true],
+[0,"CUP_arifle_CZ805_GL",true],
+[0,"CUP_arifle_Mk16_CQC",true],
+[0,"CUP_arifle_Mk16_CQC_EGLM",true],
+[0,"CUP_arifle_Mk16_CQC_FG",true],
+[0,"CUP_arifle_Mk16_CQC_SFG",true],
+[0,"CUP_arifle_Mk16_STD",true],
+[0,"CUP_arifle_Mk16_STD_EGLM",true],
+[0,"CUP_arifle_Mk16_STD_FG",true],
+[0,"CUP_arifle_Mk16_STD_SFG",true],
+[0,"CUP_arifle_Mk16_SV",true],
+[0,"CUP_arifle_Mk17_CQC",true],
+[0,"CUP_arifle_Mk17_CQC_EGLM",true],
+[0,"CUP_arifle_Mk17_CQC_FG",true],
+[0,"CUP_arifle_Mk17_CQC_SFG",true],
+[0,"CUP_arifle_Mk17_STD",true],
+[0,"CUP_arifle_Mk17_STD_EGLM",true],
+[0,"CUP_arifle_Mk17_STD_FG",true],
+[0,"CUP_arifle_Mk17_STD_SFG",true],
+[0,"arifle_MX_GL_khk_F",true],
+[0,"arifle_MX_khk_F",true],
+[0,"arifle_MXC_khk_F",true],
+[0,"arifle_MXM_khk_F",true],
 /* maschinengewehre */
 [0,"CUP_lmg_L7A2",true],
 [0,"LMG_03_F",true],
@@ -99,9 +151,223 @@ s_feindausstattung = [
 [0,"CUP_lmg_PKM",true],
 [0,"gm_hmgpkm_prp",true],
 [0,"CUP_lmg_UK59",true],
-
+/* sniper */
 /* schrotgewehre */
-[0,"CUP_sgun_M1014",false]
-
+[0,"CUP_Weapon_sgun_Saiga12K",true]
+],
+[/* lvl 3 */
+/* pistolen */
+/* maschinenpistolen */
+[0,"gm_mp5a2_blk",true],
+[0,"gm_mp5a3_blk",true],
+[0,"gm_mp5sd2_blk",true],
+[0,"gm_mp5sd3_blk",true],
+/* sturmgewehre */
+[0,"gm_lmgrpk_brn",true],
+[0,"gm_lmgrpk_prp",true],
+[0,"gm_lmgrpk74n_brn",true],
+[0,"gm_lmgrpk74n_prp",true],
+[0,"CUP_arifle_Sa58RIS1",true],
+[0,"CUP_arifle_Sa58RIS1_des",true],
+[0,"CUP_arifle_Sa58RIS2",true],
+[0,"CUP_arifle_Sa58RIS2_camo",true],
+[0,"CUP_arifle_Sa58RIS2_gl",true],
+[0,"CUP_arifle_Sa58P",true],
+[0,"CUP_arifle_Sa58P_des",true],
+[0,"CUP_arifle_Sa58V",true],
+[0,"CUP_arifle_Sa58V_camo",true],
+[0,"CUP_arifle_M4A1",true],
+[0,"CUP_arifle_M4A1_black",true],
+[0,"CUP_arifle_M4A1_BUIS_GL",true],
+[0,"CUP_arifle_M4A1_desert",true],
+[0,"CUP_arifle_M4A1_BUIS_desert_GL",true],
+[0,"CUP_arifle_M4A1_M203_ACOG_Laser",true],
+[0,"CUP_arifle_M4A1_camo",true],
+[0,"CUP_arifle_M4A1_BUIS_camo_GL",true],
+[0,"CUP_arifle_M4A3_desert",true],
+[0,"CUP_arifle_MG36",true],
+[0,"CUP_arifle_MG36_camo",true],
+[0,"CUP_arifle_Mk20",true],
+[0,"arifle_SPAR_01_khk_F",true],
+[0,"arifle_SPAR_01_snd_F",true],
+[0,"arifle_SPAR_01_blk_F",true],
+[0,"arifle_SPAR_01_GL_khk_F",true],
+[0,"arifle_SPAR_01_GL_snd_F",true],
+[0,"arifle_SPAR_01_GL_blk_F",true],
+[0,"arifle_SPAR_02_khk_F",true],
+[0,"arifle_SPAR_02_snd_F",true],
+[0,"arifle_SPAR_02_blk_F",true],
+[0,"arifle_SPAR_03_khk_F",true],
+[0,"arifle_SPAR_03_snd_F",true],
+[0,"arifle_SPAR_03_blk_F",true],
+[0,"CUP_arifle_XM8_Railed",true],
+[0,"CUP_arifle_XM8_Carbine",true],
+[0,"CUP_arifle_XM8_Compact",true],
+[0,"CUP_arifle_XM8_Compact_Rail",true],
+[0,"CUP_arifle_XM8_Carbine_FG",true],
+[0,"CUP_arifle_XM8_Carbine_GL",true],
+[0,"CUP_arifle_xm8_SAW",true],
+[0,"CUP_arifle_xm8_sharpshooter",true],
+/* maschinengewehre */
+/* sniper */
+[0,"CUP_Weapon_srifle_CZ550",true],
+[0,"CUP_Weapon_srifle_CZ550_rail",true],
+[0,"CUP_Weapon_srifle_CZ750",true],
+[0,"CUP_Weapon_srifle_LeeEnfield",true],
+[0,"CUP_Weapon_srifle_LeeEnfield_rail",true],
+[0,"CUP_Weapon_srifle_M14",true],
+[0,"CUP_Weapon_srifle_M14_DMR",true],
+[0,"CUP_Weapon_srifle_VSSVintorez",true],
+/* schrotgewehre */
+[0,"CUP_Weapon_sgun_AA12",true]
+],
+[/* lvl 4 */
+/* pistolen */
+/* maschinenpistolen */
+/* sturmgewehre */
+[0,"gm_rpk_wud",true],
+[0,"CUP_arifle_RPK74",true],
+[0,"CUP_arifle_RPK74_45",true],
+[0,"CUP_arifle_RPK74M",true],
+[0,"arifle_ARX_ghex_F",true],
+[0,"arifle_ARX_blk_F",true],
+[0,"arifle_ARX_hex_F",true],
+[0,"CUP_arifle_G36A",true],
+[0,"CUP_arifle_G36A_camo",true],
+[0,"CUP_arifle_G36C",true],
+[0,"CUP_arifle_G36C_camo",true],
+[0,"CUP_arifle_G36K",true],
+[0,"CUP_arifle_G36K_camo",true],
+[0,"CUP_arifle_L85A2",true],
+[0,"CUP_arifle_L85A2_G",true],
+[0,"CUP_arifle_L85A2_NG",true],
+[0,"CUP_arifle_L85A2_GL",true],
+[0,"CUP_arifle_L86A2",true],
+[0,"CUP_arifle_L86A2_ACOG",true],
+/* maschinengewehre */
+[0,"CUP_Weapon_lmg_minimi",true],
+[0,"CUP_Weapon_lmg_minimi_railed",true],
+[0,"CUP_Weapon_lmg_minimipara",true],
+[0,"CUP_Weapon_lmg_L110A1",true],
+[0,"CUP_Weapon_lmg_M240",true],
+[0,"CUP_Weapon_lmg_M240_ElcanM143",true],
+[0,"CUP_Weapon_lmg_m249_pip1",true],
+[0,"CUP_Weapon_lmg_m249_pip3",true],
+[0,"CUP_Weapon_lmg_m249_pip4",true],
+[0,"CUP_Weapon_lmg_m249_E2",true],
+[0,"CUP_Weapon_lmg_m249_pip2",true],
+[0,"CUP_Weapon_lmg_m249_para",true],
+[0,"CUP_Weapon_lmg_M60E4",true],
+[0,"CUP_Weapon_lmg_Mk48_des",true],
+[0,"CUP_Weapon_lmg_Mk48_wdl",true],
+/* sniper */
+[0,"CUP_Weapon_srifle_SVD",true],
+[0,"CUP_Weapon_srifle_SVD_des",true],
+[0,"CUP_Weapon_srifle_SVD_wdl_ghillie",true],
+[0,"CUP_Weapon_srifle_AWM_des",true],
+[0,"CUP_Weapon_srifle_AWM_wdl",true],
+[0,"CUP_Weapon_srifle_L129A1",true],
+[0,"CUP_Weapon_srifle_L129A1_HG",true],
+[0,"CUP_Weapon_srifle_M24_des",true],
+[0,"CUP_Weapon_srifle_M24_wdl",true],
+[0,"CUP_Weapon_srifle_M24_ghillie",true],
+[0,"CUP_Weapon_srifle_Mk12SPR",true],
+[0,"gm_placeableweapon_svd_wud",true]
+/* schrotgewehre */
+],
+[/* lvl 5 */
+/* pistolen */
+/* maschinenpistolen */
+/* sturmgewehre */
+/*LVL4*/[0,"gm_rpk_wud",true],
+/*LVL4*/[0,"CUP_arifle_RPK74",true],
+/*LVL4*/[0,"CUP_arifle_RPK74_45",true],
+/*LVL4*/[0,"CUP_arifle_RPK74M",true],
+/*LVL4*/[0,"arifle_ARX_ghex_F",true],
+/*LVL4*/[0,"arifle_ARX_blk_F",true],
+/*LVL4*/[0,"arifle_ARX_hex_F",true],
+/*LVL4*/[0,"CUP_arifle_G36A",true],
+/*LVL4*/[0,"CUP_arifle_G36A_camo",true],
+/*LVL4*/[0,"CUP_arifle_G36C",true],
+/*LVL4*/[0,"CUP_arifle_G36C_camo",true],
+/*LVL4*/[0,"CUP_arifle_G36K",true],
+/*LVL4*/[0,"CUP_arifle_G36K_camo",true],
+/*LVL4*/[0,"CUP_arifle_L85A2",true],
+/*LVL4*/[0,"CUP_arifle_L85A2_G",true],
+/*LVL4*/[0,"CUP_arifle_L85A2_NG",true],
+/*LVL4*/[0,"CUP_arifle_L85A2_GL",true],
+/*LVL4*/[0,"CUP_arifle_L86A2",true],
+/*LVL4*/[0,"CUP_arifle_L86A2_ACOG",true],
+/* maschinengewehre */
+[0,"Weapon_arifle_MX_SW_khk_F",true],
+/* sniper */
+[0,"Weapon_srifle_DMR_07_ghex_F",true],
+[0,"Weapon_srifle_DMR_07_blk_F",true],
+[0,"Weapon_srifle_DMR_07_hex_F",true],
+[0,"CUP_Weapon_srifle_G22_des",true],
+[0,"Weapon_srifle_GM6_ghex_F",true],
+[0,"CUP_Weapon_srifle_ksvk",true],
+[0,"CUP_Weapon_srifle_M107_Base",true],
+[0,"CUP_Weapon_srifle_M110",true],
+[0,"Weapon_srifle_LRR_tna_F",true],
+[0,"CUP_Weapon_srifle_M40A3",true]
+/* schrotgewehre */
+],
+[/* lvl 6 */
+/* pistolen */
+/* maschinenpistolen */
+/* sturmgewehre */
+/*LVL4*/[0,"gm_rpk_wud",true],
+/*LVL4*/[0,"CUP_arifle_RPK74",true],
+/*LVL4*/[0,"CUP_arifle_RPK74_45",true],
+/*LVL4*/[0,"CUP_arifle_RPK74M",true],
+/*LVL4*/[0,"arifle_ARX_ghex_F",true],
+/*LVL4*/[0,"arifle_ARX_blk_F",true],
+/*LVL4*/[0,"arifle_ARX_hex_F",true],
+/*LVL4*/[0,"CUP_arifle_G36A",true],
+/*LVL4*/[0,"CUP_arifle_G36A_camo",true],
+/*LVL4*/[0,"CUP_arifle_G36C",true],
+/*LVL4*/[0,"CUP_arifle_G36C_camo",true],
+/*LVL4*/[0,"CUP_arifle_G36K",true],
+/*LVL4*/[0,"CUP_arifle_G36K_camo",true],
+/*LVL4*/[0,"CUP_arifle_L85A2",true],
+/*LVL4*/[0,"CUP_arifle_L85A2_G",true],
+/*LVL4*/[0,"CUP_arifle_L85A2_NG",true],
+/*LVL4*/[0,"CUP_arifle_L85A2_GL",true],
+/*LVL4*/[0,"CUP_arifle_L86A2",true],
+/*LVL4*/[0,"CUP_arifle_L86A2_ACOG",true],
+/* maschinengewehre */
+/* sniper */
+[0,"CUP_Weapon_srifle_AS50",true],
+[0,"CUP_Weapon_srifle_AS50_AMPAS13c2",true],
+[0,"CUP_Weapon_srifle_AS50_SBPMII",true]
+/* schrotgewehre */
+],
+[/* lvl 7 */
+/* pistolen */
+/* maschinenpistolen */
+/* sturmgewehre */
+/*LVL4*/[0,"gm_rpk_wud",true],
+/*LVL4*/[0,"CUP_arifle_RPK74",true],
+/*LVL4*/[0,"CUP_arifle_RPK74_45",true],
+/*LVL4*/[0,"CUP_arifle_RPK74M",true],
+/*LVL4*/[0,"arifle_ARX_ghex_F",true],
+/*LVL4*/[0,"arifle_ARX_blk_F",true],
+/*LVL4*/[0,"arifle_ARX_hex_F",true],
+/*LVL4*/[0,"CUP_arifle_G36A",true],
+/*LVL4*/[0,"CUP_arifle_G36A_camo",true],
+/*LVL4*/[0,"CUP_arifle_G36C",true],
+/*LVL4*/[0,"CUP_arifle_G36C_camo",true],
+/*LVL4*/[0,"CUP_arifle_G36K",true],
+/*LVL4*/[0,"CUP_arifle_G36K_camo",true],
+/*LVL4*/[0,"CUP_arifle_L85A2",true],
+/*LVL4*/[0,"CUP_arifle_L85A2_G",true],
+/*LVL4*/[0,"CUP_arifle_L85A2_NG",true],
+/*LVL4*/[0,"CUP_arifle_L85A2_GL",true],
+/*LVL4*/[0,"CUP_arifle_L86A2",true],
+/*LVL4*/[0,"CUP_arifle_L86A2_ACOG",true]
+/* maschinengewehre */
+/* sniper */
+/* schrotgewehre */
 ]
 ];
